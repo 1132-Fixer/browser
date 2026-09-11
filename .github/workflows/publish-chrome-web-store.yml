@@ -1,16 +1,19 @@
 name: Publish to Chrome Web Store
 
 # Manual only, and never publishes by accident:
-#   mode=upload-draft (default) uploads the zip as a draft — nothing goes live.
+#   mode=upload-draft (default) uploads the zip as a draft. Nothing goes live.
 #   mode=upload-and-publish     also flips the item to public.
 #
-# Required repository secrets (Settings → Secrets and variables → Actions):
+# Required repository secrets (Settings -> Secrets and variables -> Actions):
 #   CWS_EXTENSION_ID    the Web Store item id for 1132 Fixer
 #   CWS_CLIENT_ID       OAuth client id  (Google Cloud, "Desktop app" client)
 #   CWS_CLIENT_SECRET   OAuth client secret
 #   CWS_REFRESH_TOKEN   refresh token minted for scope
 #                       https://www.googleapis.com/auth/chromewebstore
-# See STORE_PREP.md → "Release automation" for how to mint the refresh token.
+# See docs/release/store-prep.md -> "Release automation" for how to mint the refresh token.
+#
+# Only the Chrome package is uploaded here. Edge (Partner Center) and Firefox
+# (AMO) submissions are manual; see docs/release/.
 
 on:
   workflow_dispatch:
@@ -39,7 +42,8 @@ jobs:
 
       - uses: actions/setup-node@v7
         with:
-          node-version: '22'
+          node-version-file: .nvmrc
+          cache: npm
 
       - name: Check secrets are present
         env:
@@ -54,38 +58,40 @@ jobs:
           [ -n "$SECRET" ]  || missing="$missing CWS_CLIENT_SECRET"
           [ -n "$REFRESH" ] || missing="$missing CWS_REFRESH_TOKEN"
           if [ -n "$missing" ]; then
-            echo "::error::Missing repository secrets:$missing — see STORE_PREP.md → Release automation"
+            echo "::error::Missing repository secrets:$missing — see docs/release/store-prep.md → Release automation"
             exit 1
           fi
 
       # The confirmation string reaches the shell through the environment, never
-      # through ${{ }} interpolation — a dispatcher must not be able to inject
+      # through ${{ }} interpolation: a dispatcher must not be able to inject
       # shell into a job that later handles the store credentials.
       - name: Confirm the version being shipped
         env:
           EXPECTED: ${{ inputs.confirm }}
         run: |
-          ACTUAL="$(node scripts/bump-version.js --print)"
+          ACTUAL="$(node tooling/release/bump-version.js --print)"
           echo "manifest version: $ACTUAL"
           if [ "$ACTUAL" != "$EXPECTED" ]; then
             echo "::error::Refusing to ship: manifest says $ACTUAL, you confirmed $EXPECTED."
             exit 1
           fi
 
-      - name: Install Playwright + Chromium
-        run: |
-          npm install -g playwright@1.56.1
-          npx --yes playwright@1.56.1 install --with-deps chromium
+      - name: Install dependencies
+        run: npm ci
 
-      - name: Full test gate
-        run: npm test
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium firefox
 
-      - name: Build store zip
+      - name: Full verification gate
+        run: npm run check
+
+      - name: Locate the Chrome zip
         id: pkg
         run: |
-          node scripts/package-extension.js
-          VERSION="$(node scripts/bump-version.js --print)"
-          echo "zip=store-assets/1132-fixer-chrome-$VERSION.zip" >> "$GITHUB_OUTPUT"
+          VERSION="$(node tooling/release/bump-version.js --print)"
+          ZIP="release/chrome/1132-fixer-chrome-$VERSION.zip"
+          test -s "$ZIP"
+          echo "zip=$ZIP" >> "$GITHUB_OUTPUT"
 
       - name: Upload to Chrome Web Store
         env:
