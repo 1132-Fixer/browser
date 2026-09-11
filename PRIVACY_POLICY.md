@@ -9,7 +9,7 @@ permalink: /privacy.html
 
 *Last updated: 2026-08-23.*
 
-This is the privacy policy for the **1132 Fixer** Chrome extension distributed via the Chrome Web Store and hosted at <https://github.com/1132-Fixer/chrome>. This document is the canonical source and is also published at <https://1132-fixer.github.io/chrome/privacy.html>.
+This is the privacy policy for the **1132 Fixer** Chrome extension distributed via the Chrome Web Store and hosted at <https://github.com/1132-Fixer/browser>. This document is the canonical source and is also published at <https://1132-fixer.github.io/browser/privacy.html>.
 
 ## Summary
 
@@ -90,9 +90,9 @@ If extension behavior changes in a way that affects this policy, this document w
 ## Contact
 
 - **Owner:** `1132 Fixer` — published on the Chrome Web Store by `High-Texas` (the listing shows "Offered by High-Texas").
-- **Support / privacy questions:** open an issue at <https://github.com/1132-Fixer/chrome/issues> — this is the canonical public contact point for this extension.
-- **Repository:** <https://github.com/1132-Fixer/chrome>.
-- **Hosted privacy URL:** <https://1132-fixer.github.io/chrome/privacy.html>.
+- **Support / privacy questions:** open an issue at <https://github.com/1132-Fixer/browser/issues> — this is the canonical public contact point for this extension.
+- **Repository:** <https://github.com/1132-Fixer/browser>.
+- **Hosted privacy URL:** <https://1132-fixer.github.io/browser/privacy.html>.
 
 ## Verifiability
 

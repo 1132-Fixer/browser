@@ -30,5 +30,5 @@ Edge is a Chromium-family target. The code is identical to Chrome; only the stor
 
 Partner Center: upload `release/edge/1132-fixer-edge-<version>.zip`; fill the Privacy page using
 `docs/security/permissions-matrix.md` for the per-permission justification and
-`https://1132-fixer.github.io/chrome/privacy.html` as the privacy policy URL; add certification
+`https://1132-fixer.github.io/browser/privacy.html` as the privacy policy URL; add certification
 notes pointing at the target README's manual test steps. See `docs/release/store-preparation.md`.

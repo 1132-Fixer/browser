@@ -73,7 +73,7 @@ function esbuildOptions(target, outDir) {
     charset: 'utf8',
     logLevel: 'warning',
     define: { __TARGET__: JSON.stringify(target.id) },
-    banner: { js: `// 1132 Fixer ${target.id} build. Source: https://github.com/1132-Fixer/chrome (packages/ui/src). Not minified.` },
+    banner: { js: `// 1132 Fixer ${target.id} build. Source: https://github.com/1132-Fixer/browser (packages/ui/src). Not minified.` },
   };
 }
 

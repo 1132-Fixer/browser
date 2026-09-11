@@ -7,7 +7,7 @@ body:
       value: |
         Heads up: the extension is deliberately narrow — Zoom-only, cookies-only,
         one button. Requests that widen that scope are usually declined; see
-        [CONTRIBUTING.md](https://github.com/1132-Fixer/chrome/blob/master/CONTRIBUTING.md).
+        [CONTRIBUTING.md](https://github.com/1132-Fixer/browser/blob/main/CONTRIBUTING.md).
   - type: textarea
     id: problem
     attributes:

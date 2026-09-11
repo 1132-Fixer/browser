@@ -5,7 +5,7 @@ Common inputs for every store:
 | Input | Source |
 |---|---|
 | Package | `release/<target>/1132-fixer-<target>-<version>.zip` (see `docs/release/packaging.md`) |
-| Privacy policy URL | `https://1132-fixer.github.io/chrome/privacy.html` (canonical text: `PRIVACY_POLICY.md`) |
+| Privacy policy URL | `https://1132-fixer.github.io/browser/privacy.html` (canonical text: `PRIVACY_POLICY.md`) |
 | Per-permission justification | `docs/security/permissions-matrix.md` |
 | Single purpose | "Clear Zoom cookies and the active Zoom tab's site data with one click, then reload the tab." |
 | Remote code | None. Declare "no remote code" everywhere it is asked. |
@@ -29,7 +29,7 @@ Common inputs for every store:
    The manifest supplies name, description, and version; the package must not brand itself as a
    Chrome extension (`verify:packages` enforces this) and has no `update_url`.
 3. Availability: public, all markets.
-4. Properties: category Productivity; support URL `https://github.com/1132-Fixer/chrome/issues`.
+4. Properties: category Productivity; support URL `https://github.com/1132-Fixer/browser/issues`.
 5. Privacy: privacy policy URL above; single-purpose description; per-permission justification from
    the matrix; disclosures as in the table above.
 6. Store listing: reuse the Chrome copy with "Edge" wording where the manifest says Edge; reuse the
@@ -49,6 +49,7 @@ No submission. Brave users install the Chrome Web Store listing.
 
 | Gate | Owner | Status |
 |---|---|---|
+| Chrome Web Store privacy-policy URL field | Operator (dashboard) | **Must change.** The repository was renamed on 2026-09-11 and GitHub Pages project URLs do not redirect: the old `https://1132-fixer.github.io/chrome/privacy.html` now returns 404. Set the listing's privacy URL to `https://1132-fixer.github.io/browser/privacy.html` (verified 200). |
 | Chrome Web Store draft upload for the current version | Operator (secrets + dispatch) | Not run; listing still at the previously measured 1.2.1 |
 | Edge Add-ons developer registration and first submission | Operator | Not started |
 | AMO listing, data-collection policy question for the report page, first signed upload | Operator | Not started |

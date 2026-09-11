@@ -1,7 +1,7 @@
 /**
  * Every user-facing string of the fix flow, as pure view models.
  *
- * Truthfulness boundary (operator ruling, 1132-Fixer/chrome#20): the popup
+ * Truthfulness boundary (operator ruling, 1132-Fixer/browser#20): the popup
  * reports the OPERATION RESULT (cookies found and removed, tab site data
  * cleared, tab reloaded). It never claims the ZOOM OUTCOME (that Error 1132
  * is resolved), because nothing here can verify that. Do not add wording

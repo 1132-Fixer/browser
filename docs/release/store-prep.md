@@ -116,7 +116,7 @@ This table must match `EXTENSION_PACKAGE_ENTRIES` in `tooling/build/targets.js`.
 | Primary functionality  | Cookie cleaner                                                                                       |
 | Single purpose         | See statement above.                                                                                 |
 | Permissions            | See justification table.                                                                             |
-| Privacy policy URL     | **VERIFIED 2026-08-11 (post-rename)** — `https://1132-fixer.github.io/chrome/privacy.html` (HTTPS, public, GitHub Pages, content matches [PRIVACY_POLICY.md](PRIVACY_POLICY.md); fetch returned `200 OK` and page text contains "Privacy Policy"; re-verified after the repository rename to `1132-Fixer/chrome`). The pre-rename URL `https://1132-fixer.github.io/1132-Fixer-Chrome/privacy.html` and the pre-transfer URL `https://primeupyourlife.github.io/1132-Fixer-Chrome/privacy.html` are both dead — GitHub Pages does not redirect Pages URLs across renames or owner transfers. |
+| Privacy policy URL     | **VERIFIED 2026-08-11 (post-rename)** — `https://1132-fixer.github.io/browser/privacy.html` (HTTPS, public, GitHub Pages, content matches [PRIVACY_POLICY.md](PRIVACY_POLICY.md); fetch returned `200 OK` and page text contains "Privacy Policy"; re-verified after the repository rename to `1132-Fixer/chrome`). The pre-rename URL `https://1132-fixer.github.io/1132-Fixer-Chrome/privacy.html` and the pre-transfer URL `https://primeupyourlife.github.io/1132-Fixer-Chrome/privacy.html` are both dead — GitHub Pages does not redirect Pages URLs across renames or owner transfers. |
 
 ### Long description (paste into store form, ≤16 000 chars)
 
@@ -145,7 +145,7 @@ This table must match `EXTENSION_PACKAGE_ENTRIES` in `tooling/build/targets.js`.
 >
 > **Open source**
 >
-> Built as the Chrome sibling of [1132 Fixer for Windows](https://github.com/1132-Fixer/windows/releases/latest). Code, documentation, and design tokens are MIT licensed; the 1132 Fixer name, logo, and icons are not covered by the MIT licence (see `TRADEMARKS.md` and `ASSET-LICENSE.md`). Source: <https://github.com/1132-Fixer/chrome>.
+> Built as the Chrome sibling of [1132 Fixer for Windows](https://github.com/1132-Fixer/windows/releases/latest). Code, documentation, and design tokens are MIT licensed; the 1132 Fixer name, logo, and icons are not covered by the MIT licence (see `TRADEMARKS.md` and `ASSET-LICENSE.md`). Source: <https://github.com/1132-Fixer/browser>.
 >
 > Independent project. Not affiliated with Zoom Video Communications, Inc.
 
@@ -281,8 +281,8 @@ Screenshots:        store-assets/01-zoom-detected.png
                     store-assets/03-non-zoom-safe.png
                     store-assets/04-extension-details-permissions.png
 Official URL:       leave "None" until 1132-fixer.xyz is Search-Console-verified
-Homepage URL:       https://github.com/1132-Fixer/chrome
-Support URL:        https://github.com/1132-Fixer/chrome/issues
+Homepage URL:       https://github.com/1132-Fixer/browser
+Support URL:        https://github.com/1132-Fixer/browser/issues
 Mature content:     No
 Item support:       On
 ```
@@ -302,7 +302,7 @@ Permission justifications (paste each verbatim into the matching field):
     (browsingData and scripting are no longer requested — remove any leftover
      justification text for them from the v1.1.0 submission.)
 
-Privacy policy URL: https://1132-fixer.github.io/chrome/privacy.html
+Privacy policy URL: https://1132-fixer.github.io/browser/privacy.html
 
 Data usage — FOR A RELEASE WITHOUT the Report-a-Bug page, leave ALL nine
 checkboxes UNCHECKED. FOR ANY RELEASE THAT INCLUDES the Report-a-Bug page,
@@ -376,7 +376,7 @@ Not covered here:             live signed-in zoom.us walk
 
 | Blocker                                | Owner    | Status                                                                                                                                                       |
 | -------------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Public privacy policy URL              | Claude   | **DONE** — `https://1132-fixer.github.io/chrome/privacy.html` (HTTPS, `200 OK`, content matches `PRIVACY_POLICY.md`; re-verified 2026-08-23 after the transfer to `1132-Fixer`). The pre-transfer URL `https://primeupyourlife.github.io/1132-Fixer-Chrome/privacy.html` now returns `404` — GitHub Pages does not redirect across owner transfers. |
+| Public privacy policy URL              | Claude   | **DONE** — `https://1132-fixer.github.io/browser/privacy.html` (HTTPS, `200 OK`, content matches `PRIVACY_POLICY.md`; re-verified 2026-08-23 after the transfer to `1132-Fixer`). The pre-transfer URL `https://primeupyourlife.github.io/1132-Fixer-Chrome/privacy.html` now returns `404` — GitHub Pages does not redirect across owner transfers. |
 | 440×280 promo tile (24-bit PNG)        | Claude   | **DONE for v1.2.0** — regenerated with cookies-only copy, verified 440×280 / 24-bit RGB.                                                                      |
 | 1400×560 marquee promo (optional)      | Claude   | **DONE for v1.2.0** — regenerated and re-centred, verified 1400×560 / 24-bit RGB.                                                                             |
 | 128×128 store icon (24-bit PNG)        | Claude   | **DONE for v1.2.0** — verified 128×128 / 24-bit RGB.                                                                                                          |

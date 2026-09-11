@@ -16,7 +16,7 @@ The MIT licence does not require attribution beyond preserving the copyright and
 permission notice. As a courtesy — not a licence condition — forks and copies
 are asked to credit the canonical repository:
 
-`https://github.com/1132-Fixer/chrome`
+`https://github.com/1132-Fixer/browser`
 
 The **1132 Fixer name, logo, and icons are trademarks and are not covered by the
 MIT licence**, prospectively from the notice date. See [TRADEMARKS.md](TRADEMARKS.md)

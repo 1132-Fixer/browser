@@ -29,7 +29,7 @@
         reach us on GitHub:
       </p>
       <a class="badge site-link" id="fallbackLink"
-         href="https://github.com/1132-Fixer/chrome/issues/new"
+         href="https://github.com/1132-Fixer/browser/issues/new"
          target="_blank" rel="noopener noreferrer">Open a GitHub issue</a>
     </section>
 
@@ -56,8 +56,13 @@
         <input type="file" id="shotInput" accept="image/png,image/jpeg,image/webp,image/gif" hidden>
       </div>
 
+      <p class="report-copy" id="sendDisclosure">
+        Pressing <strong>Submit report</strong> sends your description, the screenshot if you attached one,
+        the extension version, and your browser's user-agent string to the 1132 Fixer support service.
+        Nothing is sent before you press it.
+      </p>
       <div class="report-actions">
-        <button type="button" class="report-btn report-btn-submit" id="bugSubmit" disabled>Submit report</button>
+        <button type="button" class="report-btn report-btn-submit" id="bugSubmit" disabled aria-describedby="sendDisclosure">Submit report</button>
       </div>
       <div class="report-status" id="bugStatus" role="status" aria-live="polite"></div>
     </section>

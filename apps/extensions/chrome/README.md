@@ -1,7 +1,7 @@
 # 1132 Fixer for Chrome
 
 One-click Zoom cookie cleanup for Error 1132. This package is the Google Chrome build of the
-1132 Fixer browser extension. Source, issues, and CI: <https://github.com/1132-Fixer/chrome>.
+1132 Fixer browser extension. Source, issues, and CI: <https://github.com/1132-Fixer/browser>.
 
 Independent project. Not affiliated with Zoom Video Communications, Inc.
 
@@ -49,7 +49,7 @@ version, run `npm ci` and `npm run build:chrome` with the Node version in `.nvmr
 
 The fix flow makes no network request. The optional Report-a-Bug page sends only what you type and
 attach, only when you press Submit. Full text: `PRIVACY_POLICY.md` in this package and
-<https://1132-fixer.github.io/chrome/privacy.html>.
+<https://1132-fixer.github.io/browser/privacy.html>.
 
 ## Licence and marks
 

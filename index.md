@@ -11,7 +11,7 @@ permalink: /
   <div class="cta-card">
     <h3>Install</h3>
     <p>Build and load the 1.2.7 source for Chrome, Edge, Brave, or Firefox. The Chrome Web Store listing is live but older (measured 1.2.1) — this repo does not publish.</p>
-    <a class="btn" href="https://github.com/1132-Fixer/chrome#quick-start">Get the extension</a>
+    <a class="btn" href="https://github.com/1132-Fixer/browser#quick-start">Get the extension</a>
   </div>
   <div class="cta-card">
     <h3>Privacy</h3>
@@ -61,7 +61,7 @@ There is no `browsingData` permission and no `<all_urls>` host permission. `scri
 ## Where to go next
 
 - **Privacy:** [Full privacy policy](./privacy.html)
-- **Source:** [github.com/1132-Fixer/chrome](https://github.com/1132-Fixer/chrome)
+- **Source:** [github.com/1132-Fixer/browser](https://github.com/1132-Fixer/browser)
 - **Windows sibling:** [github.com/1132-Fixer/windows](https://github.com/1132-Fixer/windows)
-- **License:** Code, documentation, and design tokens are [MIT](https://github.com/1132-Fixer/chrome/blob/main/LICENSE). The 1132 Fixer name, logo, icons, and brand artwork are **not** covered by the MIT licence, prospectively from the notice date — see [TRADEMARKS](https://github.com/1132-Fixer/chrome/blob/main/TRADEMARKS.md), the per-file [ASSET-LICENSE](https://github.com/1132-Fixer/chrome/blob/main/ASSET-LICENSE.md), and [NOTICE](https://github.com/1132-Fixer/chrome/blob/main/NOTICE.md).
+- **License:** Code, documentation, and design tokens are [MIT](https://github.com/1132-Fixer/browser/blob/main/LICENSE). The 1132 Fixer name, logo, icons, and brand artwork are **not** covered by the MIT licence, prospectively from the notice date — see [TRADEMARKS](https://github.com/1132-Fixer/browser/blob/main/TRADEMARKS.md), the per-file [ASSET-LICENSE](https://github.com/1132-Fixer/browser/blob/main/ASSET-LICENSE.md), and [NOTICE](https://github.com/1132-Fixer/browser/blob/main/NOTICE.md).
 - *Independent project. Not affiliated with Zoom Video Communications, Inc.*

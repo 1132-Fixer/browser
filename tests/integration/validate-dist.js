@@ -61,7 +61,7 @@ for (const id of T.EXTENSION_TARGET_IDS) {
     check(!/^\s*import\s|\brequire\s*\(/m.test(src), `${js} is a plain script (no import/require)`);
     check(!/sourceMappingURL/.test(src), `${js} has no source map`);
     check(!/__TARGET__/.test(src), `${js} has the build target substituted`);
-    check(/1132 Fixer .* build\. Source: https:\/\/github\.com\/1132-Fixer\/chrome/.test(src), `${js} carries the source banner`);
+    check(/1132 Fixer .* build\. Source: https:\/\/github\.com\/1132-Fixer\/browser/.test(src), `${js} carries the source banner`);
     check(!/\beval\s*\(|new\s+Function\s*\(/.test(src), `${js} has no eval`);
   }
   {

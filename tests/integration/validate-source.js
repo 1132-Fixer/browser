@@ -13,7 +13,7 @@
  *      for permissions; FIX ZOOM is wired to one click handler.
  *   4. No telemetry, no remote code, no eval, no secrets in the tree.
  *   5. One-button popup with no inputs.
- *   6. Approved product claim only (1132-Fixer/chrome#20 ruling).
+ *   6. Approved product claim only (1132-Fixer/browser#20 ruling).
  *   7. Every copy of the version agrees.
  *
  * Exits non-zero if any check fails. No build required.
@@ -219,7 +219,7 @@ group('report page: one origin, user-initiated');
 
 // --- 6. HTML surfaces ---------------------------------------------------
 group('HTML: no inline script, no inline handlers, approved links only');
-const STATIC_LINKS = new Set(['https://1132-fixer.xyz/', 'https://github.com/1132-Fixer/chrome/issues/new']);
+const STATIC_LINKS = new Set(['https://1132-fixer.xyz/', 'https://github.com/1132-Fixer/browser/issues/new']);
 for (const f of ['packages/ui/src/popup.html', 'packages/ui/src/report.html', 'apps/tv/bravia/index.html']) {
   const html = read(f);
   check(!/<script(?![^>]*\bsrc=)/i.test(html), `${f} has no inline <script>`);
@@ -237,7 +237,7 @@ for (const f of ['packages/ui/src/popup.html', 'packages/ui/src/report.html', 'a
 }
 
 // --- 7. Claim regression ------------------------------------------------
-group('approved product claim only (1132-Fixer/chrome#20 ruling)');
+group('approved product claim only (1132-Fixer/browser#20 ruling)');
 {
   const REJECTED = /One-click fix for Zoom Error 1132/i;
   const surfaces = [

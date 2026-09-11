@@ -8,7 +8,7 @@
   "manifest_version": "1.0",
   "app": {
     "launch": {
-      "web_url": "https://1132-fixer.github.io/chrome/apps/tv/bravia/"
+      "web_url": "https://1132-fixer.github.io/browser/apps/tv/bravia/"
     },
     "cache_files_and_images": true,
     "onsleep": "stop",

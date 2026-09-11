@@ -49,7 +49,7 @@ sony/apps/webapps/1132-fixer/app/manifest.json     Sony launcher manifest, web_u
 
 1. Host `index.html`, `tv.css`, `tv.js` on an https server with a valid certificate. The GitHub
    Pages site for this repository serves them at
-   `https://1132-fixer.github.io/chrome/apps/tv/bravia/` once this change is on `main` (the page is
+   `https://1132-fixer.github.io/browser/apps/tv/bravia/` once this change is on `main` (the page is
    plain static content; no build step is needed).
 2. On the display: `[Pro settings] → [Start Pro mode]`. Set the display's date and time (https
    fails on a wrong clock) and, if needed, import the root certificate under

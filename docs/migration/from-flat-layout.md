@@ -65,6 +65,7 @@ single network origin are unchanged.
 | Chrome Web Store listing text mentions `popup.js` and the repository | Listing copy is in `docs/release/chrome-web-store-listing.md`; the store package itself still contains `popup.js`. No change needed. |
 | PRIVACY_POLICY.md "Verifiability" section | Updated to the new paths. |
 | GitHub Pages `index.md` install link | Updated anchor. |
-| Windows repository links to this repository | Link to the repository root; unaffected. |
+| Windows repository links to this repository | Updated to `1132-Fixer/browser` by a Windows-repository pull request; GitHub redirects the old name for web and git. |
+| Repository rename `1132-Fixer/chrome` → `1132-Fixer/browser` (2026-09-11) | Same repository id (1246919604); web and git redirects active; Pages moved to `https://1132-fixer.github.io/browser/` with **no redirect** from the old Pages URL (GitHub behaviour). Store privacy-URL field is an operator action. |
 
 No transitional shims were added.

@@ -1,7 +1,7 @@
 # 1132 Fixer for Brave
 
 One-click Zoom cookie cleanup for Error 1132. This package is the Brave build of the 1132 Fixer
-browser extension. Source, issues, and CI: <https://github.com/1132-Fixer/chrome>.
+browser extension. Source, issues, and CI: <https://github.com/1132-Fixer/browser>.
 
 Independent project. Not affiliated with Zoom Video Communications, Inc.
 
@@ -55,7 +55,7 @@ with this folder.
 
 The fix flow makes no network request. The optional Report-a-Bug page sends only what you type and
 attach, only when you press Submit. Full text: `PRIVACY_POLICY.md` in this package and
-<https://1132-fixer.github.io/chrome/privacy.html>.
+<https://1132-fixer.github.io/browser/privacy.html>.
 
 ## Licence and marks
 

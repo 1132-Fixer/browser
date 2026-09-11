@@ -16,13 +16,13 @@
   <img alt="Local only" src="https://img.shields.io/badge/Privacy-Local%20only-39D353">
   <img alt="Zoom only" src="https://img.shields.io/badge/Scope-Zoom%20only-3A82F7">
   <img alt="MIT license" src="https://img.shields.io/badge/License-MIT-8FC2FF">
-  <a href="https://github.com/1132-Fixer/chrome/actions/workflows/ci.yml"><img alt="Build status" src="https://github.com/1132-Fixer/chrome/actions/workflows/ci.yml/badge.svg"></a>
+  <a href="https://github.com/1132-Fixer/browser/actions/workflows/ci.yml"><img alt="Build status" src="https://github.com/1132-Fixer/browser/actions/workflows/ci.yml/badge.svg"></a>
 </p>
 
 <p align="center">
   <a href="https://1132-fixer.xyz/"><strong>Visit Website</strong></a>
   &nbsp;•&nbsp;
-  <a href="https://github.com/1132-Fixer/chrome/issues/new"><strong>Feedback &amp; Report</strong></a>
+  <a href="https://github.com/1132-Fixer/browser/issues/new"><strong>Feedback &amp; Report</strong></a>
   &nbsp;•&nbsp;
   <a href="PRIVACY_POLICY.md"><strong>Privacy Policy</strong></a>
   &nbsp;•&nbsp;
@@ -59,7 +59,7 @@ recovered. If the error survives a browser cleanup, use the Windows app.
 | Google Chrome | `release/chrome/1132-fixer-chrome-<v>.zip` | Automated behaviour tests (Chromium) and install smoke; branded Chrome manual | Base manifest. Chrome Web Store listing exists (older version). |
 | Microsoft Edge | `release/edge/1132-fixer-edge-<v>.zip` | Install smoke in Chromium; branded Edge manual | Own store identity for Edge Add-ons. Not yet listed. |
 | Brave | `release/brave/1132-fixer-brave-<v>.zip` | Install smoke in Chromium; branded Brave manual | Brave users install the Chrome Web Store package. |
-| Mozilla Firefox | `release/firefox/1132-fixer-firefox-<v>.zip` | Automated behaviour tests in real Gecko; `web-ext lint`; extension install manual | Own Gecko id, Firefox 128+, data-collection declaration. AMO signing is manual. |
+| Mozilla Firefox | `release/firefox/1132-fixer-firefox-<v>.zip` | Automated behaviour tests in real Gecko; `web-ext lint`; extension install manual | Own Gecko id, Firefox 140+, built-in data-collection consent for bug reports. AMO signing is manual. |
 | Sony BRAVIA Professional Displays | `release/bravia/1132-fixer-bravia-<v>.zip` | Emulated at TV viewports; physical display validation required | A ten-foot guide client for Sony's HTML5 runtime. The extension cannot run on a TV. |
 | Sony BRAVIA consumer TVs | none | Unsupported | No extension runtime. |
 | Safari | none | Not implemented | Path documented in `docs/platforms/safari.md`. |
@@ -69,7 +69,7 @@ Full matrix with status vocabulary: [docs/platforms/compatibility-matrix.md](doc
 ## Quick start
 
 ```bash
-git clone https://github.com/1132-Fixer/chrome.git
+git clone https://github.com/1132-Fixer/browser.git
 cd chrome
 npm ci
 npx playwright install chromium firefox

@@ -49,7 +49,7 @@ Read `styles.css` (it imports `tokens/tokens.css` and `_ds_bundle.css`) before s
 
 # 1132 Fixer Design System
 
-Hand-authored from the shipped extension (popup.css is the canonical token source; `1132-Fixer/chrome`).
+Hand-authored from the shipped extension (popup.css is the canonical token source; `1132-Fixer/browser`).
 
 ## Components
 
