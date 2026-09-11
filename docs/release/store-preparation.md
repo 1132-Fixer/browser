@@ -9,7 +9,7 @@ Common inputs for every store:
 | Per-permission justification | `docs/security/permissions-matrix.md` |
 | Single purpose | "Clear Zoom cookies and the active Zoom tab's site data with one click, then reload the tab." |
 | Remote code | None. Declare "no remote code" everywhere it is asked. |
-| Data collection | The fix flow collects nothing. The optional Report-a-Bug page sends user-authored text, an optional screenshot, the extension version, and the user-agent string, only on Submit. Declare user-provided data for app functionality (support), not sold, not shared. |
+| Data collection | The fix flow collects nothing. The optional Report-a-Bug page sends user-authored text, an optional screenshot, the extension version, the user-agent string, and a random per-install support reference, only on Submit. Declare user-provided data for app functionality (support), not sold, not shared. |
 | Product claim | "One-click Zoom cookie cleanup for Error 1132". Never "One-click fix for Zoom Error 1132" (operator ruling, issue #20). Always "Independent project. Not affiliated with Zoom." |
 | Screenshots and promo images | `npm run assets` (Chrome Web Store dimensions); reuse for Edge. |
 

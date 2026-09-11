@@ -8,13 +8,30 @@ local build is byte-identical since the LF checkout rule).
 
 ## Packages under test
 
-| Commit | Package | SHA-256 |
-|---|---|---|
-| `170f7b5` (PR #27 head, CI run 34568223726, artifact `1132-fixer-packages-…`) | `chrome/1132-fixer-chrome-1.2.7.zip` | `dead517557cdbac3d65b2b704ab608dff195cd66af1200d16299a0421c9e7c1c` |
-| same | `edge/1132-fixer-edge-1.2.7.zip` | `6478f2b9587e780ababcef52ab4a4ae04b770c9992ad12e24571c437813f7ddf` |
-| same | `brave/1132-fixer-brave-1.2.7.zip` | `185d8892a3e62697f3065bfcf1627f8c84774edf51db2253266ef61c4b02a4cd` |
-| same | `firefox/1132-fixer-firefox-1.2.7.zip` | `0d5530ad29902d12aa7675ae8f8bab125559bb603fb090ad8e5ed5b1f7c6a950` |
-| same | `bravia/1132-fixer-bravia-1.2.7.zip` | `70a85711814691d154bda76d479b946782350a07b63a9b768d56d462fd57c56d` |
+Take the hashes from the commit you actually test. Two sets are current, because the
+Report-a-Bug disclosure copy changed and that file ships in the four extension packages.
+
+`main` at `f9432e8` (CI run 34587692776, artifact `1132-fixer-packages-f9432e8…`; reproduced
+byte-for-byte on Windows 11 + Node 22.22.1 on 2026-09-11, so these are the merged-tree hashes):
+
+| Package | SHA-256 |
+|---|---|
+| `chrome/1132-fixer-chrome-1.2.7.zip` | `dead517557cdbac3d65b2b704ab608dff195cd66af1200d16299a0421c9e7c1c` |
+| `edge/1132-fixer-edge-1.2.7.zip` | `6478f2b9587e780ababcef52ab4a4ae04b770c9992ad12e24571c437813f7ddf` |
+| `brave/1132-fixer-brave-1.2.7.zip` | `185d8892a3e62697f3065bfcf1627f8c84774edf51db2253266ef61c4b02a4cd` |
+| `firefox/1132-fixer-firefox-1.2.7.zip` | `0d5530ad29902d12aa7675ae8f8bab125559bb603fb090ad8e5ed5b1f7c6a950` |
+| `bravia/1132-fixer-bravia-1.2.7.zip` | `70a85711814691d154bda76d479b946782350a07b63a9b768d56d462fd57c56d` |
+
+With the disclosure change on this branch. The BRAVIA package is unchanged, because it does not
+contain `report.html`:
+
+| Package | SHA-256 |
+|---|---|
+| `chrome/1132-fixer-chrome-1.2.7.zip` | `70c4d9cdb1c73b024e95037c03e0aa95045bb1341a265ceb82187baff7ba7ac1` |
+| `edge/1132-fixer-edge-1.2.7.zip` | `07562290a482ae79ac604fc829090736481a85f1f29099f7559ae047b67fda9a` |
+| `brave/1132-fixer-brave-1.2.7.zip` | `5e3343ec8f4e60e49ba94cb6d701283ea433f346271dc93cd11f7aab6c821e86` |
+| `firefox/1132-fixer-firefox-1.2.7.zip` | `28b74f315a221fcb7a523a59b3c093924f58fb22bd21d55819094b94681871c6` |
+| `bravia/1132-fixer-bravia-1.2.7.zip` | `70a85711814691d154bda76d479b946782350a07b63a9b768d56d462fd57c56d` |
 
 ## Why these runs need a person
 
@@ -52,7 +69,9 @@ Then, in each browser, run the checklist below and fill one row of the results t
    Manager → Permissions), reopen on a Zoom tab: **ACCESS NEEDED**; press **FIX ZOOM**; accept the
    prompt; **CLEARED**.
 6. Open **Feedback & Report**: with the support service reachable, the form shows the disclosure
-   text above Submit; Firefox only: pressing Submit shows the data-collection prompt first.
+   text above Submit, and that text names the description, the screenshot, the extension version,
+   the user-agent string, and the random per-install support reference. Firefox only: pressing
+   Submit shows the data-collection prompt first, and refusing it leaves the report unsent.
 7. Keyboard only: Tab reaches the button, Enter activates it, the focus ring is visible.
 
 ### Results
