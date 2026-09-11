@@ -254,7 +254,37 @@ group('approved product claim only (1132-Fixer/browser#20 ruling)');
   }
 }
 
-// --- 8. Secrets and strictness scan across tracked files ----------------
+// --- 8. GitHub Pages assets ---------------------------------------------
+group('Pages layout: every referenced asset is published');
+{
+  // `_layouts/default.html` renders index.md and PRIVACY_POLICY.md, and the
+  // privacy URL is the one store listings point at. A path that _config.yml
+  // excludes is a permanent 404 on the live site with no build error, which is
+  // how `/icons/icon128.png` shipped broken: the icons live under `packages/`,
+  // and `packages` is excluded from the Jekyll build.
+  const config = read('_config.yml');
+  const excluded = config
+    .split(/\r?\n/)
+    .map((l) => /^\s*-\s+(.+?)\s*$/.exec(l))
+    .filter(Boolean)
+    .map((m) => m[1])
+    .filter((v) => !v.endsWith('.md') || v !== 'PRIVACY_POLICY.md');
+
+  const layout = read('_layouts/default.html');
+  const refs = [...layout.matchAll(/'(\/[^']+)'\s*\|\s*(?:relative_url|absolute_url)/g)].map((m) => m[1]);
+  check(refs.length > 0, 'default.html references at least one site asset');
+
+  for (const ref of refs) {
+    const rel = ref.replace(/^\//, '');
+    if (rel === '' || rel.endsWith('.html') || rel.endsWith('/')) continue; // pages, not assets
+    const onDisk = exists(rel);
+    const blocked = excluded.find((e) => rel === e || rel.startsWith(e.replace(/\/$/, '') + '/'));
+    check(onDisk && !blocked, `${ref} is published`,
+      !onDisk ? 'no such file in the repository' : `_config.yml excludes "${blocked}"`);
+  }
+}
+
+// --- 9. Secrets and strictness scan across tracked files ----------------
 group('tracked files: no secrets, no TypeScript escape hatches');
 {
   let tracked = [];
