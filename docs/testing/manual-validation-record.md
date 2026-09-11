@@ -62,8 +62,14 @@ Then, in each browser, run the checklist below and fill one row of the results t
 | | | Google Chrome | | `dead517557cd` | | | OPEN |
 | | | Microsoft Edge | | `6478f2b9587e` | | | OPEN |
 | | | Brave | | `185d8892a3e6` | | | OPEN |
-| | | Firefox (temporary) | | `0d5530ad2990` | | | OPEN |
+| 2026-09-11 | JG2547 (automated, `web-ext run` 10.6.0) | Firefox 153.0, Playwright build 1538 (stock Gecko, unbranded), headless | Windows 11 Pro 10.0.26200 | `0d5530ad2990` (built from `d5f5c70`) | Install only: `installTemporaryAddon` returned id `1132-fixer@1132-fixer.xyz`; web-ext logged "Installed dist/firefox as a temporary add-on" | scratchpad `webext-run.out` (session); command in the row | VERIFIED (temporary install via Mozilla tooling). Interactive steps 1 to 7 still OPEN. |
+| | | Firefox (branded, temporary) | | `0d5530ad2990` | | | OPEN |
 | | | Firefox (signed) | | `0d5530ad2990` | | | OPEN |
+
+Repeatable temporary-install check (no branded Firefox needed): with the Playwright Firefox build
+installed, run `MOZ_HEADLESS=1 npx web-ext run --source-dir dist/firefox --firefox <playwright
+firefox.exe> --no-input --no-reload --verbose` and look for the line "Installed … as a temporary
+add-on" (the remote debugging protocol's `installTemporaryAddon` reply carries the add-on id).
 
 Local machine facts at the time of writing (2026-09-11): Google Chrome 152.0.7977.84 and
 Microsoft Edge 152.0.4191.66 are installed; Brave and Firefox are not. Playwright Chromium 1234
