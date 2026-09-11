@@ -9,7 +9,7 @@ permalink: /privacy.html
 
 *Last updated: 2026-08-23.*
 
-This is the privacy policy for the **1132 Fixer** Chrome extension distributed via the Chrome Web Store and hosted at <https://github.com/1132-Fixer/chrome>. This document is the canonical source and is also published at <https://1132-fixer.github.io/chrome/privacy.html>.
+This is the privacy policy for the **1132 Fixer** Chrome extension distributed via the Chrome Web Store and hosted at <https://github.com/1132-Fixer/browser>. This document is the canonical source and is also published at <https://1132-fixer.github.io/browser/privacy.html>.
 
 ## Summary
 
@@ -90,15 +90,15 @@ If extension behavior changes in a way that affects this policy, this document w
 ## Contact
 
 - **Owner:** `1132 Fixer` — published on the Chrome Web Store by `High-Texas` (the listing shows "Offered by High-Texas").
-- **Support / privacy questions:** open an issue at <https://github.com/1132-Fixer/chrome/issues> — this is the canonical public contact point for this extension.
-- **Repository:** <https://github.com/1132-Fixer/chrome>.
-- **Hosted privacy URL:** <https://1132-fixer.github.io/chrome/privacy.html>.
+- **Support / privacy questions:** open an issue at <https://github.com/1132-Fixer/browser/issues> — this is the canonical public contact point for this extension.
+- **Repository:** <https://github.com/1132-Fixer/browser>.
+- **Hosted privacy URL:** <https://1132-fixer.github.io/browser/privacy.html>.
 
 ## Verifiability
 
 The claims above can be verified directly from this repository:
 
-- `node scripts/validate-extension.js` checks the source. It bans `fetch`, `XMLHttpRequest`, `WebSocket`, `sendBeacon`, remote code, telemetry, broad host access, `browsingData`, background/service-worker cleanup, and content-script auto-injection, and pins the Report-a-Bug page's network access to the single support-service origin.
-- `node scripts/test-popup-e2e.js` checks the real popup in headless Chromium. It proves Zoom detection vs non-Zoom pages, that nothing is cleared until **FIX ZOOM**, that unrelated-origin cookies/storage/cache/idb are not cleared, that permissions are not silently widened, that there is no hidden background cleanup, and that failures are reported. `node scripts/test-report-e2e.js` proves the report page shows an honest fallback when the service is down, validates screenshots by content, and sends only the submitted report.
-- `manifest.json` lists three permissions (`cookies`, `activeTab`, `scripting`) and the four Zoom host patterns documented above.
-- `popup.js` is short enough to audit by reading top to bottom. The only destructive `chrome.*` call is `chrome.cookies.remove`, scoped to Zoom domains. Page-data cleanup is a one-shot `chrome.scripting.executeScript` into the active Zoom tab. Both are gated behind an explicit click on `#zoomFixBtn`.
+- `npm run lint` (`tests/integration/validate-source.js`) checks the source. It bans `fetch` in the popup, `XMLHttpRequest`, `WebSocket`, `sendBeacon`, `eval`, remote code, telemetry, HTML injection sinks, broad host access, `browsingData`, background/service-worker cleanup, and content-script auto-injection, and pins the Report-a-Bug page's network access to the single support-service origin.
+- `npm run test:e2e` checks the built popup in Playwright Chromium and Firefox. It proves Zoom detection vs non-Zoom pages, that nothing is cleared until **FIX ZOOM**, that unrelated-origin cookies/storage/cache/idb are not cleared, that permissions are not silently widened, that there is no hidden background cleanup, that revoked site access is handled without cleaning anything, and that failures are reported. The report suite proves the report page shows an honest fallback when the service is down, validates screenshots by content, and sends only the submitted report.
+- `apps/extensions/chrome/manifest.json` (the base every browser package is composed from) lists three permissions (`cookies`, `activeTab`, `scripting`) and the four Zoom host patterns documented above. `npm run verify:manifests` and `npm run verify:permissions` check every generated manifest against this policy.
+- `packages/core/src` holds the cleanup logic and never references a browser API. `packages/browser-api/src/index.ts` is the only file that calls browser APIs; its surface is an explicit allowlist and the only destructive call is `cookies.remove`, scoped to Zoom domains. Page-data cleanup is a one-shot `scripting.executeScript` into the active Zoom tab. Both are gated behind an explicit click on `#zoomFixBtn` in `packages/ui/src/popup.ts`. The shipped `popup.js` is an unminified bundle of exactly these files.

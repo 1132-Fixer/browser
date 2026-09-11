@@ -9,32 +9,65 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  validate:
-    name: Validate + e2e
+  verify:
+    name: Verify all targets
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v7
 
       - uses: actions/setup-node@v7
         with:
-          node-version: '22'
+          node-version-file: .nvmrc
+          cache: npm
 
-      # The extension ships zero dependencies, so Playwright is installed
-      # globally here rather than added to the repo as a devDependency.
-      - name: Install Playwright + Chromium
-        run: |
-          npm install -g playwright@1.56.1
-          npx --yes playwright@1.56.1 install --with-deps chromium
+      - name: Install dependencies (reproducible)
+        run: npm ci
 
-      - name: Source-level validation
-        run: node scripts/validate-extension.js
+      - name: Lint (source guards, prohibited patterns)
+        run: npm run lint
 
-      - name: Browser package smoke
-        run: node scripts/test-packages.js
+      - name: Type-check
+        run: npm run typecheck
 
-      - name: Popup end-to-end behaviour tests
-        run: node scripts/test-popup-e2e.js
+      - name: Unit tests
+        run: npm run test:unit
 
-      - name: Report-page end-to-end behaviour tests
-        run: node scripts/test-report-e2e.js
+      - name: Build every target
+        run: npm run build
+
+      - name: Validate generated manifests (+ web-ext lint)
+        run: npm run verify:manifests
+
+      - name: Validate permission justifications
+        run: npm run verify:permissions
+
+      - name: Integration checks on built output
+        run: npm run test:integration
+
+      - name: Package every target
+        run: npm run package
+
+      - name: Validate release packages
+        run: npm run verify:packages
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium firefox
+
+      - name: End-to-end (Chromium, Firefox, extension install smoke, BRAVIA TV client)
+        run: npm run test:e2e
+
+      - name: Upload review artifacts (not published anywhere)
+        uses: actions/upload-artifact@v7
+        with:
+          name: 1132-fixer-packages-${{ github.sha }}
+          path: |
+            release/**/*.zip
+            release/SHA256SUMS.txt
+          if-no-files-found: error
+          retention-days: 14

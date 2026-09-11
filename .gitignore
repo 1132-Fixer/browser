@@ -1,7 +1,9 @@
 node_modules/
+/dist/
+/release/
 *.zip
-store-assets/
-packages/
+/store-assets/
+web-ext-artifacts/
 _site/
 .jekyll-cache/
 .DS_Store

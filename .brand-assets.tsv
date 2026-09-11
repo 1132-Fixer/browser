@@ -1,10 +1,10 @@
 # canonical path	shipped path
-assets/exports/chrome/icon.png	icons/icon.png
-assets/exports/chrome/icon16.png	icons/icon16.png
-assets/exports/chrome/icon32.png	icons/icon32.png
-assets/exports/chrome/icon48.png	icons/icon48.png
-assets/exports/chrome/icon128.png	icons/icon128.png
-assets/exports/chrome/popup-logo.png	icons/popup-logo.png
+assets/exports/chrome/icon.png	packages/ui/src/icons/icon.png
+assets/exports/chrome/icon16.png	packages/ui/src/icons/icon16.png
+assets/exports/chrome/icon32.png	packages/ui/src/icons/icon32.png
+assets/exports/chrome/icon48.png	packages/ui/src/icons/icon48.png
+assets/exports/chrome/icon128.png	packages/ui/src/icons/icon128.png
+assets/exports/chrome/popup-logo.png	packages/ui/src/icons/popup-logo.png
 assets/exports/chrome/1132-fixer-logo-transparent.png	assets/1132-fixer-logo-transparent.png
 assets/exports/chrome/logo-mark.svg	assets/logo-mark.svg
 assets/exports/chrome/social-preview.png	assets/social-preview.png

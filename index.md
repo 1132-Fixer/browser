@@ -10,8 +10,8 @@ permalink: /
 <div class="cta-row" markdown="0">
   <div class="cta-card">
     <h3>Install</h3>
-    <p>Load the unpacked 1.2.7 source. The Chrome Web Store listing is live but older (measured 1.2.1) — this repo does not publish.</p>
-    <a class="btn" href="https://github.com/1132-Fixer/chrome#install-unpacked-for-development">Get the extension</a>
+    <p>Build and load the 1.2.7 source for Chrome, Edge, Brave, or Firefox. The Chrome Web Store listing is live but older (measured 1.2.1) — this repo does not publish.</p>
+    <a class="btn" href="https://github.com/1132-Fixer/browser#quick-start">Get the extension</a>
   </div>
   <div class="cta-card">
     <h3>Privacy</h3>
@@ -34,7 +34,7 @@ This is **not** the Windows-profile path. The [Windows app](https://github.com/1
 - On any other site (or `chrome://` / `about:` pages), the popup shows one line asking you to open a Zoom tab. No button is offered. The extension does not request access to non-Zoom hosts.
 - Every clear is user-triggered. The popup never deletes anything on open, install, startup, page-load, or a timer.
 
-Source version is **1.2.7**. Chrome, Edge, Brave, and Firefox packages exist from this tree; Firefox runtime is `MANUAL_VALIDATION_REQUIRED`. The live Chrome Web Store listing was measured **1.2.1**.
+Source version is **1.2.7**. Chrome, Edge, Brave, and Firefox packages are built from one shared implementation; Firefox behaviour is tested in the real Gecko engine, while a signed Firefox install is still `MANUAL_VALIDATION_REQUIRED`. The live Chrome Web Store listing was measured **1.2.1**. A [TV guide for Sony BRAVIA Professional Displays](./apps/tv/bravia/) explains why the extension cannot run on a television and what to do instead.
 
 ## What it does *not* do
 
@@ -61,7 +61,7 @@ There is no `browsingData` permission and no `<all_urls>` host permission. `scri
 ## Where to go next
 
 - **Privacy:** [Full privacy policy](./privacy.html)
-- **Source:** [github.com/1132-Fixer/chrome](https://github.com/1132-Fixer/chrome)
+- **Source:** [github.com/1132-Fixer/browser](https://github.com/1132-Fixer/browser)
 - **Windows sibling:** [github.com/1132-Fixer/windows](https://github.com/1132-Fixer/windows)
-- **License:** Code, documentation, and design tokens are [MIT](https://github.com/1132-Fixer/chrome/blob/main/LICENSE). The 1132 Fixer name, logo, icons, and brand artwork are **not** covered by the MIT licence, prospectively from the notice date — see [TRADEMARKS](https://github.com/1132-Fixer/chrome/blob/main/TRADEMARKS.md), the per-file [ASSET-LICENSE](https://github.com/1132-Fixer/chrome/blob/main/ASSET-LICENSE.md), and [NOTICE](https://github.com/1132-Fixer/chrome/blob/main/NOTICE.md).
+- **License:** Code, documentation, and design tokens are [MIT](https://github.com/1132-Fixer/browser/blob/main/LICENSE). The 1132 Fixer name, logo, icons, and brand artwork are **not** covered by the MIT licence, prospectively from the notice date — see [TRADEMARKS](https://github.com/1132-Fixer/browser/blob/main/TRADEMARKS.md), the per-file [ASSET-LICENSE](https://github.com/1132-Fixer/browser/blob/main/ASSET-LICENSE.md), and [NOTICE](https://github.com/1132-Fixer/browser/blob/main/NOTICE.md).
 - *Independent project. Not affiliated with Zoom Video Communications, Inc.*

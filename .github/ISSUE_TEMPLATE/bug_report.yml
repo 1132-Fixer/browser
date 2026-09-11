@@ -9,7 +9,7 @@ body:
         extension never shows them, and we never need them.
 
         Security issue? Do not file it here — see
-        [SECURITY.md](https://github.com/1132-Fixer/chrome/blob/master/SECURITY.md)
+        [SECURITY.md](https://github.com/1132-Fixer/browser/blob/main/SECURITY.md)
         for private reporting.
   - type: textarea
     id: what-happened
