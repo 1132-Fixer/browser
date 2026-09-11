@@ -1,7 +1,9 @@
 # Changelog
 
-Notable changes to 1132 Fixer for Chrome. Versions follow the shipped
-`manifest.json` version; entries are summarized from the git history.
+Notable changes to the 1132 Fixer browser extension, which ships for Chrome,
+Edge, Brave and Firefox from one source tree, alongside the BRAVIA guide client.
+Versions follow the shipped `manifest.json` version; entries are summarized from
+the git history.
 
 ## Unreleased
 
@@ -23,9 +25,9 @@ Notable changes to 1132 Fixer for Chrome. Versions follow the shipped
   brave,firefox}`) composed from the Chrome base manifest plus an overlay.
   esbuild produces unminified bundles into `dist/<target>/`; release zips go
   to `release/<target>/` with SHA-256 sums.
-- Firefox target: Gecko id, `strict_min_version` 128.0, AMO data-collection
-  declaration (`none`), `web-ext lint` in CI, behaviour tests in the real
-  Gecko engine. Popup handles revoked host access (**ACCESS NEEDED**) and
+- Firefox target: its own Gecko id, `web-ext lint` in CI, and behaviour tests in
+  the real Gecko engine. The minimum version and the data-collection declaration
+  are described above. Popup handles revoked host access (**ACCESS NEEDED**) and
   re-requests it from the FIX ZOOM click.
 - BRAVIA: a ten-foot TV guide client for Sony BRAVIA Professional Displays'
   HTML5 runtime (`apps/tv/bravia`) with a Sony launcher package. The
