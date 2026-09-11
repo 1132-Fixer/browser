@@ -1,0 +1,131 @@
+/* 1132 Fixer TV guide. Ten-foot UI on the same brand tokens as packages/ui/src/popup.css.
+   No hover-only interaction. Every action is a focusable button with a visible ring. */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg-0: #17243a;
+  --bg-1: #203857;
+  --surface: #1e2b46;
+  --surface-elev: #243453;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-hi: rgba(58, 130, 247, 0.4);
+  --accent: #3a82f7;
+  --accent-soft: #8fc2ff;
+  --green-500: #39d353;
+  --amber-400: #f2c94c;
+  --red-500: #f85149;
+  --text: #f4f7fb;
+  --text-dim: #9ca8bd;
+  --font: 'Segoe UI Variable', 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, sans-serif;
+  --radius-btn: 12px;
+  --radius-pill: 999px;
+
+  /* Ten-foot scale: 1080p reference, scales with the viewport. */
+  --fs-body: clamp(20px, 1.5vw, 32px);
+  --fs-lead: clamp(22px, 1.7vw, 36px);
+  --fs-title: clamp(40px, 3.4vw, 72px);
+  --fs-card-title: clamp(24px, 1.9vw, 40px);
+  --fs-badge: clamp(16px, 1.1vw, 24px);
+  --focus-ring: 6px;
+}
+
+html, body { width: 100%; height: 100%; }
+
+body.tv {
+  font-family: var(--font);
+  font-size: var(--fs-body);
+  line-height: 1.45;
+  background: linear-gradient(180deg, var(--bg-0) 0%, var(--bg-1) 100%);
+  color: var(--text);
+  overflow: hidden;
+  user-select: none;
+  cursor: none;
+}
+
+/* Overscan safe area: 5% each side (Android TV guidance: keep UI inside the 90% box). */
+.safe-area {
+  height: 100%;
+  padding: 5vh 5vw;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5vh;
+}
+
+.tv-header { display: flex; flex-direction: column; align-items: center; gap: 1vh; }
+.tv-topbar { width: 100%; display: flex; justify-content: space-between; }
+.badge {
+  display: inline-flex; align-items: center; min-height: 2.4em;
+  padding: 0.35em 1em; border-radius: var(--radius-pill);
+  font-size: var(--fs-badge); font-weight: 600; letter-spacing: 0.1em;
+  color: var(--text-dim); border: 1px solid var(--border); background: var(--surface);
+}
+.badge.offline { color: var(--amber-400); border-color: rgba(242, 201, 76, 0.45); background: rgba(242, 201, 76, 0.1); }
+.tv-title { font-size: var(--fs-title); font-weight: 600; letter-spacing: 0.12em; line-height: 1; }
+.tv-sep { width: 4em; height: 0.2em; border-radius: 0.1em; background: var(--accent); opacity: 0.6; }
+.tv-desc { color: var(--text-dim); letter-spacing: 0.12em; text-transform: uppercase; font-size: var(--fs-badge); }
+
+.tv-main { display: flex; flex-direction: column; align-items: center; gap: 2vh; flex: 1; min-height: 0; }
+.status-badge {
+  display: inline-flex; align-items: center; gap: 0.6em; max-width: 100%;
+  padding: 0.45em 1.2em; border-radius: var(--radius-pill);
+  font-size: var(--fs-badge); font-weight: 700; letter-spacing: 0.1em;
+  color: var(--text-dim); border: 1px solid var(--border); background: var(--surface);
+}
+.status-dot { width: 0.6em; height: 0.6em; border-radius: 50%; background: var(--text-dim); }
+.tv-lead { color: var(--text-dim); font-size: var(--fs-lead); text-align: center; max-width: 70vw; text-wrap: pretty; }
+
+.tv-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2vw; width: 100%; margin-top: 1vh; }
+.tv-card {
+  display: flex; flex-direction: column; gap: 0.6em; text-align: left;
+  padding: 1.2em 1.4em; min-height: 11em;
+  border-radius: var(--radius-btn); border: 2px solid var(--border);
+  background: var(--surface); color: var(--text); font: inherit;
+  transition: transform 0.12s ease, border-color 0.12s ease, background 0.12s ease;
+}
+.tv-card-kicker { color: var(--accent-soft); font-size: var(--fs-badge); letter-spacing: 0.14em; font-weight: 700; }
+.tv-card-title { font-size: var(--fs-card-title); font-weight: 600; line-height: 1.2; }
+.tv-card-body { color: var(--text-dim); }
+.tv-card:focus, .tv-card:focus-visible {
+  outline: var(--focus-ring) solid var(--text);
+  outline-offset: 4px;
+  border-color: var(--accent);
+  background: var(--surface-elev);
+  transform: scale(1.03);
+}
+
+.tv-panel {
+  position: absolute; inset: 5vh 5vw;
+  display: flex; flex-direction: column; gap: 1.5vh;
+  padding: 3vh 3vw;
+  border-radius: var(--radius-btn); border: 2px solid var(--border-hi);
+  background: var(--bg-0);
+  overflow: hidden;
+}
+.tv-panel[hidden] { display: none; }
+.tv-panel-title { font-size: var(--fs-card-title); font-weight: 600; letter-spacing: 0.04em; }
+.tv-panel-note { color: var(--text-dim); max-width: 80vw; text-wrap: pretty; }
+.tv-steps { padding-left: 1.4em; display: flex; flex-direction: column; gap: 0.6em; font-size: var(--fs-lead); max-width: 80vw; }
+.tv-link { color: var(--text-dim); }
+.tv-url { color: var(--accent-soft); font-weight: 600; letter-spacing: 0.02em; }
+.tv-back {
+  margin-top: auto; align-self: flex-start;
+  min-height: 2.6em; padding: 0.6em 2em;
+  border-radius: var(--radius-btn); border: 2px solid var(--border);
+  background: var(--accent); color: #fff; font: inherit; font-weight: 600; letter-spacing: 0.14em;
+}
+.tv-back:focus, .tv-back:focus-visible { outline: var(--focus-ring) solid var(--text); outline-offset: 4px; }
+
+.tv-footer { display: flex; justify-content: space-between; color: var(--text-dim); font-size: var(--fs-badge); letter-spacing: 0.04em; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0.001ms !important; animation: none !important; }
+  .tv-card:focus, .tv-card:focus-visible { transform: none; }
+}
+@media (forced-colors: active) {
+  .tv-card, .tv-back { border: 2px solid ButtonText; }
+  .tv-card:focus, .tv-back:focus { outline: var(--focus-ring) solid Highlight; }
+}
+@media (max-aspect-ratio: 4/3) {
+  .tv-cards { grid-template-columns: 1fr; }
+}

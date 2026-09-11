@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>1132 Fixer — TV Guide</title>
+  <link rel="stylesheet" href="tv.css">
+</head>
+<body class="tv">
+  <div class="safe-area">
+    <header class="tv-header">
+      <div class="tv-topbar">
+        <span class="badge" id="appVersion">TV GUIDE</span>
+        <span class="badge" id="netState" role="status" aria-live="polite">ONLINE</span>
+      </div>
+      <h1 class="tv-title">1132 FIXER</h1>
+      <div class="tv-sep" aria-hidden="true"></div>
+      <p class="tv-desc">A focused browser cleanup for Zoom error 1132.</p>
+    </header>
+
+    <main class="tv-main" id="home" aria-label="Choose an option">
+      <div class="status-badge neutral" id="statusBadge">
+        <span class="status-dot" aria-hidden="true"></span>
+        <span id="statusBadgeText">BROWSER EXTENSION NOT AVAILABLE ON THIS TV</span>
+      </div>
+      <p class="tv-lead" id="lead">
+        This TV runs television software, not a desktop browser, so the 1132 Fixer browser extension cannot run here.
+        Pick what fits your setup. Use the arrow keys to move and OK to open.
+      </p>
+
+      <nav class="tv-cards" aria-label="Options">
+        <button type="button" class="tv-card" id="card-computer" data-panel="panel-computer" data-order="1">
+          <span class="tv-card-kicker">OPTION 1</span>
+          <span class="tv-card-title">Use the browser extension on a computer</span>
+          <span class="tv-card-body">Chrome, Edge, Brave, or Firefox on a laptop or desktop.</span>
+        </button>
+        <button type="button" class="tv-card" id="card-windows" data-panel="panel-windows" data-order="2">
+          <span class="tv-card-kicker">OPTION 2</span>
+          <span class="tv-card-title">Use the Windows app</span>
+          <span class="tv-card-body">For an Error 1132 loop that survives a browser cleanup.</span>
+        </button>
+        <button type="button" class="tv-card" id="card-tv" data-panel="panel-tv" data-order="3">
+          <span class="tv-card-kicker">OPTION 3</span>
+          <span class="tv-card-title">Clear a Zoom app installed on this TV</span>
+          <span class="tv-card-body">Only if a Zoom app is installed here. Menu names vary by model.</span>
+        </button>
+      </nav>
+    </main>
+
+    <section class="tv-panel" id="panel-computer" role="dialog" aria-labelledby="panel-computer-title" hidden>
+      <h2 class="tv-panel-title" id="panel-computer-title">On a computer</h2>
+      <ol class="tv-steps">
+        <li>Open a zoom.us or zoom.com page in your browser.</li>
+        <li>Install 1132 Fixer from your browser's extension store, or load the package from the project page.</li>
+        <li>Open the extension and press FIX ZOOM. It clears Zoom cookies and that tab's Zoom site data, then reloads.</li>
+      </ol>
+      <p class="tv-link">Project page: <span class="tv-url">github.com/1132-Fixer/chrome</span></p>
+      <p class="tv-link">Website: <span class="tv-url">1132-fixer.xyz</span></p>
+      <button type="button" class="tv-back" data-back>BACK</button>
+    </section>
+
+    <section class="tv-panel" id="panel-windows" role="dialog" aria-labelledby="panel-windows-title" hidden>
+      <h2 class="tv-panel-title" id="panel-windows-title">Windows app</h2>
+      <ol class="tv-steps">
+        <li>On the Windows PC that shows Error 1132, open the project's Windows release page.</li>
+        <li>Download and run the 1132 Fixer Windows app. It opens Zoom Workplace under a fresh local helper account.</li>
+      </ol>
+      <p class="tv-link">Releases: <span class="tv-url">github.com/1132-Fixer/windows/releases/latest</span></p>
+      <button type="button" class="tv-back" data-back>BACK</button>
+    </section>
+
+    <section class="tv-panel" id="panel-tv" role="dialog" aria-labelledby="panel-tv-title" hidden>
+      <h2 class="tv-panel-title" id="panel-tv-title">Zoom app on this TV</h2>
+      <p class="tv-panel-note">This guide cannot clear another app's data for you. TV software keeps each app's data private. The steps below are the general Android TV / Google TV path; the exact menu names depend on your model and software version.</p>
+      <ol class="tv-steps">
+        <li>Press HOME on the remote, then open Settings.</li>
+        <li>Open Apps, then See all apps, and choose the Zoom app.</li>
+        <li>Choose Clear cache, then Clear data (also called Clear storage).</li>
+        <li>Open Zoom again and sign in.</li>
+      </ol>
+      <p class="tv-panel-note">If Error 1132 continues, the cause is not this TV's Zoom data. Use Option 1 or Option 2 on a computer.</p>
+      <button type="button" class="tv-back" data-back>BACK</button>
+    </section>
+
+    <footer class="tv-footer">
+      <span class="tv-footer-text">Independent project. Not affiliated with Zoom.</span>
+      <span class="tv-footer-text" id="hint">← → ↑ ↓ move · OK open · BACK return</span>
+    </footer>
+  </div>
+  <script src="tv.js"></script>
+</body>
+</html>
