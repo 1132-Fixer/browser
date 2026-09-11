@@ -5,10 +5,31 @@ Notable changes to 1132 Fixer for Chrome. Versions follow the shipped
 
 ## Unreleased
 
+- Cross-browser workspace: one shared TypeScript core (`packages/core`), a
+  feature-detected browser adapter (`packages/browser-api`), shared UI
+  (`packages/ui`), and thin per-target apps (`apps/extensions/{chrome,edge,
+  brave,firefox}`) composed from the Chrome base manifest plus an overlay.
+  esbuild produces unminified bundles into `dist/<target>/`; release zips go
+  to `release/<target>/` with SHA-256 sums.
+- Firefox target: Gecko id, `strict_min_version` 128.0, AMO data-collection
+  declaration (`none`), `web-ext lint` in CI, behaviour tests in the real
+  Gecko engine. Popup handles revoked host access (**ACCESS NEEDED**) and
+  re-requests it from the FIX ZOOM click.
+- BRAVIA: a ten-foot TV guide client for Sony BRAVIA Professional Displays'
+  HTML5 runtime (`apps/tv/bravia`) with a Sony launcher package. The
+  extension cannot run on any BRAVIA; consumer sets are unsupported.
+- Verification: `npm run check` chains lint, typecheck, unit, build, manifest
+  and permission validation, integration, package validation, and a Playwright
+  matrix (Chromium, Firefox, extension install smoke, TV viewports). A new
+  permission without a justification fails CI.
+- Copy: outcome text no longer names Chrome; "interrupted the fix" became
+  "interrupted the cleanup"; report page version chip fixed. Permissions and
+  hosts unchanged. CSP declared explicitly (Chrome default).
+- Removed: the `master`-targeting auto version-bump workflow (ADR 0006), the
+  superseded PowerShell asset scripts, and the global-Playwright resolver.
 - README / NOTICE modernization: Error 1132 browser vs Windows-profile split,
-  Chrome/Edge/Brave/Firefox packaging status, Firefox runtime
-  `MANUAL_VALIDATION_REQUIRED`, store-version honesty (source 1.2.7; live
-  Chrome Web Store listing measured 1.2.1). No store publish.
+  store-version honesty (source 1.2.7; live Chrome Web Store listing measured
+  1.2.1). No store publish.
 
 ## 1.2.7 — 2026-08-23
 

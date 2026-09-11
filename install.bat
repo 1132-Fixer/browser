@@ -2,15 +2,18 @@
 setlocal EnableExtensions
 title 1132 Fixer Chrome Installer
 
-set "EXT_DIR=%~dp0"
-if "%EXT_DIR:~-1%"=="\" set "EXT_DIR=%EXT_DIR:~0,-1%"
+set "REPO_DIR=%~dp0"
+if "%REPO_DIR:~-1%"=="\" set "REPO_DIR=%REPO_DIR:~0,-1%"
+set "EXT_DIR=%REPO_DIR%\dist\chrome"
 
 if not exist "%EXT_DIR%\manifest.json" (
   echo.
-  echo [ERROR] manifest.json not found in:
+  echo [ERROR] No Chrome build found at:
   echo   %EXT_DIR%
   echo.
-  echo This installer must run from the 1132 Fixer chrome repo folder.
+  echo Build it first from the repository root:
+  echo   npm ci
+  echo   npm run build:chrome
   echo.
   pause
   exit /b 1
@@ -23,8 +26,8 @@ echo ================================================================
 echo.
 echo  NOTE: Chrome does not allow a .bat file to silently install an
 echo  unpacked extension. This helper just opens the two windows you
-echo  need - the Chrome extensions page and the extension folder - so
-echo  you only have to click "Load unpacked" and pick this folder.
+echo  need - the Chrome extensions page and the built extension
+echo  folder - so you only have to click "Load unpacked" and pick it.
 echo.
 echo  No admin rights. No registry changes. No downloads.
 echo.

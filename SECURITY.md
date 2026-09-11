@@ -2,7 +2,8 @@
 
 ## Supported versions
 
-Only the latest release of 1132 Fixer for Chrome receives security fixes.
+Only the latest release of the 1132 Fixer browser extension (every browser target is built from
+the same source tree and version) receives security fixes.
 
 ## Reporting a vulnerability
 

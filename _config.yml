@@ -1,25 +1,47 @@
-title: 1132 Fixer for Chrome
-description: Clear Zoom site data in Chrome with one guided action. Zoom-origin only. MV3, user-triggered, no telemetry, no remote code.
+title: 1132 Fixer Browser Extension
+description: One-click Zoom cookie cleanup for Error 1132. Zoom-origin only. MV3, user-triggered, no telemetry, no remote code. Chrome, Edge, Brave, and Firefox packages from one source tree.
 
-# No theme — we ship our own _layouts/default.html and assets/site.css.
+# No theme: we ship our own _layouts/default.html and assets/site.css.
 # This keeps the rendered page free of any external GitHub Pages theme assets.
 
 include:
   - PRIVACY_POLICY.md
 
+# The site publishes index.md, the privacy policy, site assets, and the
+# BRAVIA TV guide (apps/tv/bravia, served as static files). Everything else in
+# the workspace is source, tooling, tests, or long-form documentation.
 exclude:
   - node_modules
+  - dist
+  - release
   - store-assets
-  - scripts
+  - apps/extensions
+  - apps/tv/bravia/sony
+  - packages
+  - tooling
+  - tests
+  - docs
   - ds-bundle
+  - design-system
   - .design-sync
   - .github
   - install.bat
-  - STORE_PREP.md
-  - 1132-fixer-chrome.zip
   - package.json
   - package-lock.json
+  - tsconfig.json
   - .gitignore
+  - .nvmrc
   - LICENSE
+  - AGENTS.md
+  - CLAUDE.md
+  - CHANGELOG.md
+  - CONTRIBUTING.md
+  - CODE_OF_CONDUCT.md
+  - SECURITY.md
+  - SUPPORT.md
+  - TRADEMARKS.md
+  - ASSET-LICENSE.md
+  - NOTICE.md
+  - README.md
 
 plugins: []
