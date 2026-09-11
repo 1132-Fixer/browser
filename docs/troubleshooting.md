@@ -7,7 +7,7 @@
 | `version drift: apps/extensions/chrome/manifest.json says X, package.json says Y` | A version was hand-edited. | `node tooling/release/bump-version.js <X>` to realign every copy, or revert the hand edit. |
 | `dist/<target> is not built. Run: npm run build:<target>` | Packaging before building. | `npm run build` first. |
 | `verify:permissions` fails with "no row" | A permission was added without a justification. | Add the row to `docs/security/permissions-matrix.md` with `yes` for each target that requests it. |
-| `web-ext lint` errors | Firefox manifest problem. | Read the JSON report line in the `verify:manifests` output; the two warnings about `data_collection_permissions` versus Firefox 128 are expected. |
+| `web-ext lint` errors | Firefox manifest problem. | Read the JSON report line in the `verify:manifests` output. Expected on a healthy tree: 0 errors, 1 warning, 0 notices. The one warning is `KEY_FIREFOX_ANDROID_UNSUPPORTED_BY_MIN_VERSION`, because `strict_min_version` 140 also covers Firefox for Android, which gained `data_collection_permissions` only in 142. Desktop is fine. Any error, or a second warning, is a real problem. |
 | `node --test` cannot import `.ts` | Node older than 22.18. | Use the version in `.nvmrc`. |
 | esbuild "install scripts" warning on `npm install` | npm's allow-scripts policy. | Harmless; esbuild resolves its platform binary from optional dependencies. |
 | Playwright cannot find a browser | Browsers not installed. | `npx playwright install chromium firefox`. |
