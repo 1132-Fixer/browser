@@ -206,6 +206,19 @@ async function withReportPage(cfg, fn) {
       check(reg === expected, `registered as ${expected} for the ${TARGET} build`, String(reg));
     });
 
+    // A service that answers /health with a products value that is not an
+    // array must not break registration. report.ts guards this with
+    // Array.isArray before productCodeFor ever sees it; without that guard the
+    // page would throw on .includes and the report would be lost.
+    group('malformed capabilities.products -> falls back to CHROME, no page error');
+    await withReportPage({ name: 'malformed products', products: { CHROME: true, FIREFOX: true } }, async (page) => {
+      await page.fill('#bugText', 'The popup shows ERROR every time I press FIX ZOOM on my company Zoom page, nothing else happens.');
+      await page.click('#bugSubmit');
+      await page.waitForFunction(() => /Submitted|error|failed|try again|Not sent/i.test(document.getElementById('bugStatus').textContent), { timeout: 10000 });
+      const reg = await page.evaluate(() => { const c = window.__fetchCalls.find((x) => x.url.endsWith('/v1/principals')); return c ? JSON.parse(c.body).product : null; });
+      check(reg === 'CHROME', 'a non-array products value falls back to CHROME', String(reg));
+    });
+
     group('oversized image rejected client-side');
     await withReportPage({ name: 'big' }, async (page) => {
       const big = Buffer.alloc(5 * 1024 * 1024 + 1);
