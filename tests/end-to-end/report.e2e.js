@@ -176,7 +176,12 @@ async function withReportPage(cfg, fn) {
         check(consent.length === 0, 'Chromium: no data-collection consent request is sent (no such API)', JSON.stringify(consent));
       }
       const disclosure = await page.evaluate(() => (document.getElementById('sendDisclosure') || {}).textContent || '');
-      check(/description/.test(disclosure) && /screenshot/.test(disclosure) && /user-agent/.test(disclosure) && /version/.test(disclosure), 'the form states exactly what Submit sends');
+      // The support reference is the persistent identifier ADR 0007 says
+      // implicit consent cannot cover, and this page carries no link to the
+      // privacy policy, so the disclosure has to name it before Submit.
+      check(/description/.test(disclosure) && /screenshot/.test(disclosure) && /user-agent/.test(disclosure)
+        && /version/.test(disclosure) && /support reference/.test(disclosure),
+        'the form states exactly what Submit sends, including the support reference');
     });
 
     if (NAMESPACE === 'browser') {
