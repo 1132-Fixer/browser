@@ -29,6 +29,12 @@ Install browsers once: `npx playwright install chromium firefox` (CI adds `--wit
 | `extension-install.e2e.js` | Playwright Chromium, persistent context, `--load-extension` | `dist/chrome`, `dist/edge`, `dist/brave` | Real install: listed on `chrome://extensions`, popup opens as an extension page with the real `chrome.*`, no errors, real manifest name / version / permissions, Zoom host access granted, `<all_urls>` not granted, first run shows NOT ZOOM, report page falls back when the service is unreachable (network aborted). |
 | `bravia.e2e.js` | Playwright Chromium at 720p / 1080p / 4K | `dist/bravia` | Safe area ≥ 5%, no scrolling, cards inside the title-safe box, D-pad order, OK opens, BACK (Escape / Backspace / 461) closes and restores focus, focus recovery on `pageshow`, offline banner, every control is a `<button>`. |
 
+## Manual runs
+
+Branded-browser and physical-display runs are recorded in
+[manual-validation-record.md](manual-validation-record.md), with the package hashes under test, the
+one operator action per target, the checklist, and a results table. An unfilled row is an open gate.
+
 ## What is not automated, and how it is labelled
 
 | Item | Label | How to do it |
