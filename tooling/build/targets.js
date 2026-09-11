@@ -63,7 +63,7 @@ const EXTENSION_TARGETS = {
     appDir: 'apps/extensions/firefox',
     overlay: 'manifest.overlay.json',
     zipStem: '1132-fixer-firefox',
-    esbuildTarget: 'firefox128',
+    esbuildTarget: 'firefox140',
     store: 'Firefox Add-ons (AMO)',
   },
 };

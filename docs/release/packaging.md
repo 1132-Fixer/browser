@@ -43,6 +43,25 @@ One version for everything. `npm run bump` (or `bump:minor`, `bump:major`, or an
 `package-lock.json`, both page version chips, and the BRAVIA launcher manifest together. The build
 refuses to run if any copy drifts. Do not hand-edit versions.
 
+## Version authority
+
+The browser extension and the Windows app are separate products with **independent version lines**,
+by evidence rather than by accident:
+
+- The browser line is 1.x (1.1.0 in May 2026, 1.2.1 first Chrome Web Store submission, 1.2.7 now);
+  every browser package, the base manifest, `package.json`, and the BRAVIA launcher share this one
+  number.
+- The Windows line is 6.x (`1132-Fixer/windows` `package.json` 6.4.0, release `v6.4.0` on
+  2026-09-05, with its own changelog and release workflow).
+- The canonical 1132 product-family issue (Botify-Network#24209) and the public product registry
+  (Botify Network website: "Windows 5.6.0 ... Chrome 1.2.7") record the two numbers separately, and
+  no directive ties them together.
+
+Decision (2026-09-11): keep the lines independent. Do not renumber the browser packages to 6.x.
+A store may reject a version that jumps backward, and the Chrome Web Store already holds 1.2.1. If
+the operator later wants one family version, do it with a deliberate major bump on the browser
+side recorded in the changelog, never by editing numbers in place.
+
 ## Release checklist
 
 1. `npm run bump` on a branch; `npm run check` passes locally.

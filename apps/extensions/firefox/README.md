@@ -1,7 +1,7 @@
 # 1132 Fixer for Firefox
 
 One-click Zoom cookie cleanup for Error 1132. This package is the Mozilla Firefox build of the
-1132 Fixer browser extension. Source, issues, and CI: <https://github.com/1132-Fixer/chrome>.
+1132 Fixer browser extension. Source, issues, and CI: <https://github.com/1132-Fixer/browser>.
 
 Independent project. Not affiliated with Zoom Video Communications, Inc.
 
@@ -23,11 +23,14 @@ recovered.
 
 - `browser_specific_settings.gecko.id` is `1132-fixer@1132-fixer.xyz`. Firefox requires a stable
   id to sign a Manifest V3 extension.
-- `strict_min_version` is `128.0`. The in-page cleaner uses `indexedDB.databases()`, which Firefox
-  added in 126; 128 is the extended-support release.
+- `strict_min_version` is `140.0`, the current extended-support release and the first version with
+  Firefox's built-in data-collection consent. (The in-page cleaner also needs `indexedDB.databases()`,
+  Firefox 126+.)
 - `data_collection_permissions.required` is `["none"]`: the fix flow collects and transmits nothing.
-  Firefox shows this in the install prompt. The optional Report-a-Bug page sends a report only when
-  you press Submit.
+  `optional` is `["technicalAndInteraction"]`: the Report-a-Bug page sends the extension version, your
+  browser's user-agent string, and a per-install support identifier together with your report, and
+  Firefox asks for that consent when you press Submit. If you refuse, nothing is sent and the page
+  says so.
 - `minimum_chrome_version` is removed.
 - Host access can be revoked by the user at any time in the Add-ons Manager. If that happened, the
   popup shows **ACCESS NEEDED** and pressing **FIX ZOOM** asks Firefox to grant Zoom site access
@@ -63,7 +66,7 @@ addons.mozilla.org; see `docs/release/firefox-signing.md` in the repository.
 the repository above using esbuild. To rebuild byte-identically:
 
 ```bash
-git clone https://github.com/1132-Fixer/chrome.git
+git clone https://github.com/1132-Fixer/browser.git
 cd chrome
 git checkout v<this version>
 npm ci
@@ -76,7 +79,7 @@ Use the Node version in `.nvmrc`. Compare `dist/firefox/` with this package.
 
 The fix flow makes no network request. The optional Report-a-Bug page sends only what you type and
 attach, only when you press Submit. Full text: `PRIVACY_POLICY.md` in this package and
-<https://1132-fixer.github.io/chrome/privacy.html>.
+<https://1132-fixer.github.io/browser/privacy.html>.
 
 ## Licence and marks
 

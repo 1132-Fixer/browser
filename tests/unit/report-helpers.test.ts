@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { SUPPORT_ORIGIN, SUPPORT_PRODUCT, bytesToBase64, messageFor, sniffImageBytes, titleFrom } from '../../packages/ui/src/report-helpers.ts';
+import { SUPPORT_ORIGIN, SUPPORT_PRODUCT, bytesToBase64, messageFor, productCodeFor, sniffImageBytes, titleFrom } from '../../packages/ui/src/report-helpers.ts';
 
 const PNG = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==', 'base64');
 
@@ -32,6 +32,17 @@ test('messageFor maps service statuses to user copy', () => {
   assert.match(messageFor({ status: 413, json: null }), /too large/);
   assert.equal(messageFor({ status: 400, json: { error: { code: 'validation_failed', message: 'Title too short.' } } }), 'Title too short.');
   assert.match(messageFor({ status: 500, json: null }), /failed/);
+});
+
+test('productCodeFor uses the browser code only when the service advertises it, else CHROME', () => {
+  const all = ['WINDOWS', 'CHROME', 'MACOS', 'EDGE', 'FIREFOX', 'BRAVE'];
+  assert.equal(productCodeFor('firefox', all), 'FIREFOX');
+  assert.equal(productCodeFor('edge', all), 'EDGE');
+  assert.equal(productCodeFor('brave', all), 'BRAVE');
+  assert.equal(productCodeFor('chrome', all), 'CHROME');
+  assert.equal(productCodeFor('firefox', ['WINDOWS', 'CHROME', 'MACOS']), 'CHROME', 'older service');
+  assert.equal(productCodeFor('firefox', undefined), 'CHROME', 'no capability list');
+  assert.equal(productCodeFor('bravia', all), 'CHROME', 'unknown target');
 });
 
 test('support origin is a single https literal and the product code is one the service accepts', () => {

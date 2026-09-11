@@ -14,12 +14,25 @@ export const PRINCIPAL_KEY = '1132_support_principal';
 
 /**
  * Product code sent when this install registers with the support service.
- * The service accepts WINDOWS, CHROME, and MACOS only (feedback-proxy
- * lib/auth.js), so every browser build registers as CHROME today. Adding
- * EDGE / FIREFOX / BRAVE codes is a support-service change; see
- * docs/known-limitations.md.
+ *
+ * Every deployment accepts CHROME. Newer deployments advertise the codes they
+ * accept in GET /health `capabilities.products`; a build registers with its
+ * own browser's code only when that list contains it, so an older service
+ * never rejects a newer client (feedback-proxy lib/auth.js, migration 003).
  */
 export const SUPPORT_PRODUCT = 'CHROME';
+
+const TARGET_PRODUCT: Record<string, string> = {
+  chrome: 'CHROME',
+  edge: 'EDGE',
+  brave: 'BRAVE',
+  firefox: 'FIREFOX',
+};
+
+export function productCodeFor(target: string, advertised: readonly string[] | undefined): string {
+  const code = TARGET_PRODUCT[target];
+  return code && advertised && advertised.includes(code) ? code : SUPPORT_PRODUCT;
+}
 
 /** Sniffed image MIME of the bytes, or null when not an accepted image. */
 export function sniffImageBytes(u8: Uint8Array | null | undefined): string | null {

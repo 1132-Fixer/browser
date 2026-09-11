@@ -22,6 +22,7 @@ import type {
   ActiveTab,
   BrowserFamily,
   CookieApi,
+  DataCollectionType,
   WebExtNamespace,
 } from '../../platform-types/src/index.ts';
 
@@ -36,6 +37,13 @@ export interface BrowserApi {
   hasHostAccess(origins: readonly string[]): Promise<boolean>;
   /** Must be called synchronously inside a user-input handler, before any await. */
   requestHostAccess(origins: readonly string[]): Promise<boolean>;
+  /**
+   * Firefox built-in data-collection consent (Firefox 140+). Resolves true on
+   * engines that have no such consent surface (Chromium's store questionnaire
+   * covers disclosure there). Must be called synchronously inside a user-input
+   * handler, before any await.
+   */
+  requestDataCollection(types: readonly DataCollectionType[]): Promise<boolean>;
 }
 
 interface NamespaceScope {
@@ -104,6 +112,15 @@ export function detectBrowserApi(scope: NamespaceScope = globalThis as Namespace
     async requestHostAccess(origins: readonly string[]): Promise<boolean> {
       try {
         return await ns.permissions.request({ origins: [...origins] });
+      } catch {
+        return false;
+      }
+    },
+
+    async requestDataCollection(types: readonly DataCollectionType[]): Promise<boolean> {
+      if (family !== 'gecko') return true;
+      try {
+        return await ns.permissions.request({ data_collection: [...types] });
       } catch {
         return false;
       }

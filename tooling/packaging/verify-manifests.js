@@ -88,8 +88,9 @@ for (const id of T.EXTENSION_TARGET_IDS) {
     const g = m.browser_specific_settings && m.browser_specific_settings.gecko;
     check(!!g, 'firefox: browser_specific_settings.gecko present');
     check(!!g && /^[a-zA-Z0-9-._]*@[a-zA-Z0-9-._]+$/.test(g.id), 'firefox: gecko.id has the AMO id format', g && g.id);
-    check(!!g && Number(g.strict_min_version) >= 128, 'firefox: strict_min_version >= 128.0 (indexedDB.databases needs 126+; 128 is ESR)', g && g.strict_min_version);
-    check(!!g && g.data_collection_permissions && JSON.stringify(g.data_collection_permissions.required) === '["none"]', 'firefox: data_collection_permissions.required is ["none"]');
+    check(!!g && Number(g.strict_min_version) >= 140, 'firefox: strict_min_version >= 140.0 (built-in data-collection consent; 140 is the current ESR)', g && g.strict_min_version);
+    check(!!g && g.data_collection_permissions && JSON.stringify(g.data_collection_permissions.required) === '["none"]', 'firefox: data_collection_permissions.required is ["none"] (the fix flow collects nothing)');
+    check(!!g && g.data_collection_permissions && JSON.stringify(g.data_collection_permissions.optional) === '["technicalAndInteraction"]', 'firefox: data_collection_permissions.optional is ["technicalAndInteraction"] (bug reports, requested on Submit)');
     check(!('minimum_chrome_version' in m), 'firefox: no minimum_chrome_version');
   } else {
     check(typeof m.minimum_chrome_version === 'string', 'chromium: minimum_chrome_version present', m.minimum_chrome_version);

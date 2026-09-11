@@ -114,10 +114,23 @@ export interface WebExtNamespace {
     }): Promise<Array<{ result?: T }>>;
   };
   permissions: {
-    contains(p: { origins: string[] }): Promise<boolean>;
-    request(p: { origins: string[] }): Promise<boolean>;
+    contains(p: PermissionsQuery): Promise<boolean>;
+    request(p: PermissionsQuery): Promise<boolean>;
   };
 }
+
+/**
+ * Subset of permissions.Permissions this project uses. `data_collection` is
+ * Firefox's built-in data-collection consent (Firefox 140+); Chromium has no
+ * such key and the adapter never sends it there.
+ */
+export interface PermissionsQuery {
+  origins?: string[];
+  data_collection?: string[];
+}
+
+/** Firefox data-collection types this project can ask consent for. */
+export type DataCollectionType = 'technicalAndInteraction';
 
 declare global {
   // eslint-disable-next-line no-var

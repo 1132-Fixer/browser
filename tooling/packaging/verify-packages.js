@@ -103,8 +103,9 @@ for (const id of ['edge', 'brave', 'firefox']) {
 if (manifests.firefox) {
   const g = manifests.firefox.browser_specific_settings && manifests.firefox.browser_specific_settings.gecko;
   check(!!g && /^[^@]+@[^@]+$/.test(g.id), 'firefox: gecko id is set', JSON.stringify(g));
-  check(!!g && /^\d+\.\d+$/.test(g.strict_min_version) && Number(g.strict_min_version) >= 128, 'firefox: strict_min_version >= 128.0', g && g.strict_min_version);
+  check(!!g && /^\d+\.\d+$/.test(g.strict_min_version) && Number(g.strict_min_version) >= 140, 'firefox: strict_min_version >= 140.0', g && g.strict_min_version);
   check(!!g && g.data_collection_permissions && JSON.stringify(g.data_collection_permissions.required) === '["none"]', 'firefox: declares data_collection_permissions.required = ["none"]');
+  check(!!g && g.data_collection_permissions && JSON.stringify(g.data_collection_permissions.optional) === '["technicalAndInteraction"]', 'firefox: declares data_collection_permissions.optional = ["technicalAndInteraction"]');
   check(!('minimum_chrome_version' in manifests.firefox), 'firefox: no minimum_chrome_version');
 }
 for (const id of ['edge', 'brave']) {

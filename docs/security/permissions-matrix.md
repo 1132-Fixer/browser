@@ -30,7 +30,7 @@ Rules that bound every row:
 | Host permissions at install | Granted, shown in the install prompt. | Granted and shown in the install prompt from Firefox 127 (source: MDN `host_permissions`). Users can revoke them at any time in the Add-ons Manager. |
 | What the popup does when host access is missing | Shows **ACCESS NEEDED**; pressing FIX ZOOM calls `permissions.request` from inside the click handler. | Same code path. The request is issued synchronously in the click handler because Firefox only prompts from a user-input handler. |
 | `permissions` API | Available without a manifest entry. | Available without a manifest entry. |
-| Data collection declaration | Chrome Web Store privacy questionnaire (dashboard). | `browser_specific_settings.gecko.data_collection_permissions.required = ["none"]` in the manifest. Required for new AMO submissions since 3 November 2025. |
+| Data collection declaration | Chrome Web Store privacy questionnaire (dashboard). | `data_collection_permissions.required = ["none"]` (fix flow) and `optional = ["technicalAndInteraction"]` (bug reports; consent requested from the Submit click, refusal sends nothing). Required for new AMO submissions since 3 November 2025. ADR 0007. |
 
 ## Explicitly not requested
 

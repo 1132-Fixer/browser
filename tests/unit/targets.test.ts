@@ -41,8 +41,8 @@ test('every non-Chrome overlay changes only identity, never permissions or hosts
 test('firefox overlay adds gecko identity and drops minimum_chrome_version', () => {
   const m = T.manifestFor('firefox');
   assert.equal(m.browser_specific_settings.gecko.id, '1132-fixer@1132-fixer.xyz');
-  assert.ok(Number(m.browser_specific_settings.gecko.strict_min_version) >= 128);
-  assert.deepEqual(m.browser_specific_settings.gecko.data_collection_permissions, { required: ['none'] });
+  assert.ok(Number(m.browser_specific_settings.gecko.strict_min_version) >= 140);
+  assert.deepEqual(m.browser_specific_settings.gecko.data_collection_permissions, { required: ['none'], optional: ['technicalAndInteraction'] });
   assert.equal('minimum_chrome_version' in m, false);
 });
 

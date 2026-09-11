@@ -14,19 +14,26 @@
  * page's localStorage, extension-origin, never a shipped secret).
  */
 
-import { detectBrowserApi } from '../../browser-api/src/index.ts';
+import { detectBrowserApi, type BrowserApi } from '../../browser-api/src/index.ts';
 import {
   MIN_TEXT_CHARS,
   PRINCIPAL_KEY,
   SHOT_MAX_BYTES,
   SUPPORT_ORIGIN,
-  SUPPORT_PRODUCT,
   bytesToBase64,
   messageFor,
+  productCodeFor,
   sniffImageBytes,
   titleFrom,
   type ServiceResponse,
 } from './report-helpers.ts';
+
+/** Build target id, substituted by esbuild (tooling/build/build.js `define`). */
+declare const __TARGET__: string;
+const BUILD_TARGET: string = typeof __TARGET__ === 'string' ? __TARGET__ : 'chrome';
+
+/** Product codes the support service advertised on this page load (GET /health). */
+let advertisedProducts: string[] | undefined;
 
 function byId<T extends HTMLElement>(id: string): T {
   const el = document.getElementById(id);
@@ -56,6 +63,12 @@ const els = {
 interface Screenshot { bytes: Uint8Array; mediaType: string; name: string }
 interface Principal { principalId: string; token: string }
 
+let api: BrowserApi | null = null;
+function browserApi(): BrowserApi | null {
+  if (!api) { try { api = detectBrowserApi(); } catch { api = null; } }
+  return api;
+}
+
 let screenshot: Screenshot | null = null;
 let screenshotUrl: string | null = null;  // preview object URL
 let shotReadGen = 0;       // invalidates in-flight async file reads
@@ -71,7 +84,8 @@ function updateSubmit(): void {
 }
 
 function appVersion(): string {
-  try { return detectBrowserApi().manifestVersion() || '0.0.0'; } catch { return '0.0.0'; }
+  const b = browserApi();
+  return (b && b.manifestVersion()) || '0.0.0';
 }
 
 function setStatus(msg: string, cls?: string): void {
@@ -176,7 +190,10 @@ async function serviceRequest(
 async function capabilityProbe(): Promise<boolean> {
   try {
     const r = await serviceRequest('GET', '/health', undefined, undefined, 8000);
-    const caps = r.json && (r.json['capabilities'] as { screenshots?: boolean } | undefined);
+    const caps = r.json && (r.json['capabilities'] as { screenshots?: boolean; products?: unknown } | undefined);
+    advertisedProducts = caps && Array.isArray(caps.products)
+      ? caps.products.filter((p): p is string => typeof p === 'string')
+      : undefined;
     return Boolean(caps && caps.screenshots);
   } catch {
     return false; // unreachable, stalled, or CORS-dark -> fallback view
@@ -193,7 +210,7 @@ function loadPrincipal(): Principal | null {
 async function registerPrincipal(): Promise<Principal | null> {
   const r = await serviceRequest('POST', '/v1/principals',
     { 'Content-Type': 'application/json' },
-    JSON.stringify({ product: SUPPORT_PRODUCT, appVersion: appVersion() }));
+    JSON.stringify({ product: productCodeFor(BUILD_TARGET, advertisedProducts), appVersion: appVersion() }));
   const j = r.json as { principalId?: string; token?: string } | null;
   if (r.status === 201 && j && j.principalId && j.token) {
     const p: Principal = { principalId: j.principalId, token: j.token };
@@ -206,10 +223,20 @@ async function registerPrincipal(): Promise<Principal | null> {
 async function submitReport(): Promise<void> {
   if (submitBusy) return; // typing must not re-arm the button mid-flight
   const text = els.text.value.trim();
+  // Firefox's built-in data-collection consent: the report carries the
+  // extension version, the user-agent string, and the per-install support
+  // principal (technical data). The request must be issued synchronously in
+  // the Submit click handler, before any await. Chromium resolves true.
+  const b = browserApi();
+  const consent = b ? b.requestDataCollection(['technicalAndInteraction']) : Promise.resolve(true);
   submitBusy = true;
   updateSubmit();
   setStatus(screenshot ? 'Submitting report + screenshot…' : 'Submitting…');
   try {
+    if (!(await consent)) {
+      setStatus('Not sent. Your browser did not allow this extension to send technical details with the report. You can allow it in the browser’s add-on settings, or open a GitHub issue instead.', 'err');
+      return;
+    }
     let principal = loadPrincipal() || await registerPrincipal();
     if (!principal) {
       setStatus('Could not reach the support service — try again later.', 'err');

@@ -5,6 +5,18 @@ Notable changes to 1132 Fixer for Chrome. Versions follow the shipped
 
 ## Unreleased
 
+- Repository renamed to `1132-Fixer/browser` (same repository; GitHub redirects
+  the old `chrome` name for web and git). Pages now live at
+  `https://1132-fixer.github.io/browser/`; the old Pages URL does not redirect.
+- Reproducible builds: `.gitattributes` checks every text file out with LF, so
+  the packages built on Windows are byte-identical to CI's (verified against
+  the CI artifact checksums).
+- Firefox: minimum version 140 (current ESR) and the built-in data-collection
+  consent (`required: none`, `optional: technicalAndInteraction`, requested when
+  you press Submit on the Report-a-Bug page; refusal sends nothing). The form
+  states exactly what Submit sends. ADR 0007.
+- Report-a-Bug: each browser build registers with its own product code when
+  the support service advertises it; otherwise `CHROME` as before.
 - Cross-browser workspace: one shared TypeScript core (`packages/core`), a
   feature-detected browser adapter (`packages/browser-api`), shared UI
   (`packages/ui`), and thin per-target apps (`apps/extensions/{chrome,edge,

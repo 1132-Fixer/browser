@@ -56,7 +56,7 @@ function fetchStub(cfg) {
     if (CFG.dark) throw new TypeError('Failed to fetch');
     if (CFG.failCases && call.url.endsWith('/v1/cases')) return { status: 500, ok: false, json: async () => ({}) };
     const respond = (status, obj) => ({ status, ok: status < 400, json: async () => obj });
-    if (call.url.endsWith('/health')) return respond(200, { ok: true, capabilities: { screenshots: true } });
+    if (call.url.endsWith('/health')) return respond(200, { ok: true, capabilities: Object.assign({ screenshots: true }, CFG.products ? { products: CFG.products } : {}) });
     if (call.url.endsWith('/v1/principals')) return respond(201, { principalId: 'IN-TESTTESTTE', token: 'a'.repeat(64) });
     if (call.url.endsWith('/v1/cases')) {
       const body = JSON.parse(call.body);
@@ -73,7 +73,7 @@ let browser;
 async function withReportPage(cfg, fn) {
   const context = await browser.newContext({ viewport: { width: 700, height: 900 } });
   try {
-    await context.addInitScript(mockInitScript({ namespace: NAMESPACE, version: MOCK_VERSION }));
+    await context.addInitScript(mockInitScript({ namespace: NAMESPACE, version: MOCK_VERSION, grantOnRequest: cfg.grantOnRequest !== false }));
     await context.addInitScript(fetchStub(cfg));
     const page = await context.newPage();
     const pageErrors = [];
@@ -107,7 +107,7 @@ async function withReportPage(cfg, fn) {
       }));
       check(s.fallbackHidden === false, 'fallback view is shown');
       check(s.formHidden === true, 'form stays hidden');
-      check(s.link.includes('github.com/1132-Fixer/chrome/issues/new'), 'fallback links to GitHub issues', s.link);
+      check(s.link.includes('github.com/1132-Fixer/browser/issues/new'), 'fallback links to GitHub issues', s.link);
     });
 
     group('service live -> form, validation, submit with screenshot');
@@ -168,6 +168,42 @@ async function withReportPage(cfg, fn) {
       const reg = done.calls.find((c) => c.url.endsWith('/v1/principals'));
       check(Boolean(reg) && JSON.parse(reg.body).product === 'CHROME', 'install registered with a product code the service accepts');
       check(done.calls.every((c) => c.url.startsWith('https://1132-fixer-feedback-proxy-production.up.railway.app/')), 'every call targets the support origin');
+      const consent = await page.evaluate(() => window.__calls.request);
+      if (NAMESPACE === 'browser') {
+        check(consent.length === 1 && JSON.stringify(consent[0]) === JSON.stringify({ data_collection: ['technicalAndInteraction'] }),
+          'Firefox: data-collection consent requested exactly once, for technicalAndInteraction, on Submit', JSON.stringify(consent));
+      } else {
+        check(consent.length === 0, 'Chromium: no data-collection consent request is sent (no such API)', JSON.stringify(consent));
+      }
+      const disclosure = await page.evaluate(() => (document.getElementById('sendDisclosure') || {}).textContent || '');
+      check(/description/.test(disclosure) && /screenshot/.test(disclosure) && /user-agent/.test(disclosure) && /version/.test(disclosure), 'the form states exactly what Submit sends');
+    });
+
+    if (NAMESPACE === 'browser') {
+      group('Firefox: data-collection consent refused -> nothing is sent');
+      await withReportPage({ name: 'consent refused', grantOnRequest: false }, async (page) => {
+        await page.fill('#bugText', 'The popup shows ERROR every time I press FIX ZOOM on my company Zoom page, nothing else happens.');
+        await page.click('#bugSubmit');
+        await page.waitForFunction(() => /Not sent/.test(document.getElementById('bugStatus').textContent), { timeout: 10000 });
+        const s = await page.evaluate(() => ({
+          calls: window.__fetchCalls.map((c) => c.url),
+          request: window.__calls.request,
+          disabled: document.getElementById('bugSubmit').disabled,
+        }));
+        check(s.calls.every((u) => u.endsWith('/health')), 'no /v1 request was made without consent', s.calls.join(' '));
+        check(s.request.length === 1, 'consent was asked exactly once');
+        check(s.disabled === false, 'Submit is re-enabled so the user can retry after granting');
+      });
+    }
+
+    group('newer service advertises browser product codes -> this build registers with its own code');
+    await withReportPage({ name: 'product codes', products: ['WINDOWS', 'CHROME', 'MACOS', 'EDGE', 'FIREFOX', 'BRAVE'] }, async (page) => {
+      await page.fill('#bugText', 'The popup shows ERROR every time I press FIX ZOOM on my company Zoom page, nothing else happens.');
+      await page.click('#bugSubmit');
+      await page.waitForFunction(() => /Submitted|error|failed|try again|Not sent/i.test(document.getElementById('bugStatus').textContent), { timeout: 10000 });
+      const reg = await page.evaluate(() => { const c = window.__fetchCalls.find((x) => x.url.endsWith('/v1/principals')); return c ? JSON.parse(c.body).product : null; });
+      const expected = { chrome: 'CHROME', edge: 'EDGE', brave: 'BRAVE', firefox: 'FIREFOX' }[TARGET];
+      check(reg === expected, `registered as ${expected} for the ${TARGET} build`, String(reg));
     });
 
     group('oversized image rejected client-side');

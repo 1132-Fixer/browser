@@ -9,8 +9,11 @@ after flipping `xpinstall.signatures.required` in `about:config`.
 
 1. Keep `browser_specific_settings.gecko.id` at `1132-fixer@1132-fixer.xyz` forever. AMO checks that
    the id is unique on the first signing and ties every later version to it.
-2. Resolve the data-collection policy question for the Report-a-Bug page
-   (`docs/platforms/firefox.md`). The manifest currently declares `required: ["none"]`.
+2. The data-collection declaration is settled (ADR 0007): `required: ["none"]`, `optional:
+   ["technicalAndInteraction"]`, requested on Submit. The listing description must say: "The
+   optional Report-a-Bug page sends your description, an optional screenshot, the extension version,
+   your browser's user-agent string, and a per-install support identifier to the 1132 Fixer support
+   service, only when you press Submit, and only after you allow it."
 3. Confirm `npm run verify:manifests` reports `web-ext lint` with 0 errors.
 
 ## Upload (manual, operator action)
@@ -34,8 +37,8 @@ after flipping `xpinstall.signatures.required` in `about:config`.
 
 4. Listing: name "1132 Fixer for Firefox", summary "Clear Zoom site data in Firefox with one guided
    action.", description from `docs/release/chrome-web-store-listing.md` with Firefox wording,
-   privacy policy URL `https://1132-fixer.github.io/chrome/privacy.html`, support URL
-   `https://github.com/1132-Fixer/chrome/issues`, screenshots from `npm run assets`.
+   privacy policy URL `https://1132-fixer.github.io/browser/privacy.html`, support URL
+   `https://github.com/1132-Fixer/browser/issues`, screenshots from `npm run assets`.
 5. Submit. Automated validation signs within about 24 hours unless a manual review is triggered.
 
 ## Alternative: `web-ext sign`

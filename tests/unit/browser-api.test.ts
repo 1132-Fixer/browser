@@ -63,6 +63,23 @@ test('host access: missing permissions API means access cannot have been revoked
   assert.equal(await api.requestHostAccess(['https://*.zoom.us/*']), false);
 });
 
+test('data-collection consent is requested on Gecko only and never sent to Chromium', async () => {
+  const geckoCalls: unknown[] = [];
+  const gecko = fakeNamespace({
+    runtime: { getManifest: () => ({ version: '1', name: 'g' }), getBrowserInfo: async () => ({ name: 'Firefox', version: '140' }) },
+    permissions: { contains: async () => true, request: async (p) => { geckoCalls.push(p); return false; } },
+  });
+  const g = detectBrowserApi({ browser: gecko });
+  assert.equal(await g.requestDataCollection(['technicalAndInteraction']), false);
+  assert.deepEqual(geckoCalls, [{ data_collection: ['technicalAndInteraction'] }]);
+
+  const chromiumCalls: unknown[] = [];
+  const chromium = fakeNamespace({ permissions: { contains: async () => true, request: async (p) => { chromiumCalls.push(p); return true; } } });
+  const c = detectBrowserApi({ chrome: chromium });
+  assert.equal(await c.requestDataCollection(['technicalAndInteraction']), true);
+  assert.deepEqual(chromiumCalls, [], 'Chromium has no data_collection consent surface');
+});
+
 test('every call is forwarded to the namespace', async () => {
   const calls: string[] = [];
   const api = detectBrowserApi({ chrome: fakeNamespace({}, calls) });

@@ -7,11 +7,15 @@
    window has its own jar and is reachable only if the extension is allowed in incognito.
 3. **Partitioned cookies are best-effort.** Browsers that reject the empty `partitionKey` filter
    (Chrome before 119) return only the unpartitioned jar.
-4. **Support-service product code.** The support service accepts `WINDOWS`, `CHROME`, and `MACOS`
-   only, so every browser build registers bug reports as `CHROME`. Adding Edge / Firefox / Brave
-   codes is a change to the `feedback-proxy` service in the Windows repository.
-5. **Firefox data-collection declaration for the report page** is an open policy question; the
-   manifest declares `none` for the fix flow. See `docs/platforms/firefox.md`.
+4. **Support-service product code.** Each browser build registers with its own code (`EDGE`,
+   `FIREFOX`, `BRAVE`) only when the deployed support service advertises it in `GET /health`
+   `capabilities.products`; otherwise it registers as `CHROME`, which every deployment accepts. The
+   service change (enum migration, product set, Discord tag fallback) is a separate pull request in
+   the Windows repository (`feedback-proxy/`); its deployment is a manual `railway up` by the
+   service owner.
+5. **Firefox data-collection declaration** is resolved (ADR 0007): `required: none`, `optional:
+   technicalAndInteraction` requested on Submit. Mozilla reviewers may still require more at review
+   time; the request path accommodates it. Firefox 128 to 139 (end of life) cannot install the package.
 6. **Branded-browser and real-device runs are manual.** Playwright side-loads extensions only into
    Chromium; Firefox installs, branded Chrome / Edge / Brave, and BRAVIA Professional Displays need a
    person. Labels in `docs/platforms/compatibility-matrix.md`.

@@ -5,9 +5,10 @@
     "browser_specific_settings": {
       "gecko": {
         "id": "1132-fixer@1132-fixer.xyz",
-        "strict_min_version": "128.0",
+        "strict_min_version": "140.0",
         "data_collection_permissions": {
-          "required": ["none"]
+          "required": ["none"],
+          "optional": ["technicalAndInteraction"]
         }
       }
     }

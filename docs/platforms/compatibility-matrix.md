@@ -36,5 +36,5 @@ Status vocabulary, used everywhere in this repository:
 | Target | Minimum | Reason |
 |---|---|---|
 | Chrome / Edge / Brave | Chromium 114 | Unchanged from the previous release; partition-key support (119+) degrades gracefully. |
-| Firefox | 128.0 | `indexedDB.databases()` (126+) and the minimum version that can receive signed updates. |
+| Firefox | 140.0 | Built-in data-collection consent (ADR 0007), current ESR; also covers `indexedDB.databases()` (126+). |
 | BRAVIA Pro | Sony WebAppRuntime `minimum_web_platform_version` 1.0 | Sony's documented baseline. |
