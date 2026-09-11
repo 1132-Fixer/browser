@@ -33,14 +33,14 @@
  * still fits — text is rasterized natively at the chosen factor, never
  * downscaled from a larger bitmap, which keeps it sharp.
  *
- * Resolves the globally-installed `playwright` so the repo does not gain a
- * node_modules dependency.
+ * `playwright` is a devDependency of this workspace and is required directly.
  */
 
 const fs   = require('fs');
 const path = require('path');
 const { pathToFileURL } = require('url');
 const { chromium } = require('playwright');
+const { mockInitScript } = require('../../packages/test-utils/src/browser-mock');
 
 const ROOT       = path.resolve(__dirname, '..', '..');
 // Screenshots come from the BUILT Chrome popup: run `npm run build:chrome` first.
@@ -68,22 +68,15 @@ const SCALE_LADDER = [2, 1.75, 1.5, 1.25, 1];
  * chrome.cookies.getAll / chrome.cookies.remove / chrome.tabs.reload. Those are
  * the only chrome.* APIs the cookies-only popup touches.
  */
+// The popup's WebExtension mock is `packages/test-utils`, the same one the
+// end-to-end suites use. This file used to carry its own copy, which stopped
+// at runtime.getManifest/tabs/cookies. When v1.2.7 added the page-data clear
+// (scripting.executeScript) and the host-access recovery path
+// (permissions.contains/request), the private copy answered neither, so shot 02
+// clicked FIX ZOOM and waited forever for CLEARED. Share the mock instead of
+// keeping a second one that can drift again.
 function chromeMock(activeUrl) {
-  return `(() => {
-    window.chrome = {
-      runtime: {
-        getManifest: () => ({ name: '1132 Fixer for Chrome', version: ${JSON.stringify(VERSION)}, manifest_version: 3 }),
-      },
-      tabs: {
-        query: async () => [{ id: 1, url: ${JSON.stringify(activeUrl)} }],
-        reload: async () => {},
-      },
-      cookies: {
-        getAll: async () => [],
-        remove: async () => ({}),
-      },
-    };
-  })();`;
+  return mockInitScript({ namespace: 'chrome', version: VERSION, activeUrl });
 }
 
 /** Shot 02: click FIX ZOOM and wait for the SUCCESS pill — a published
@@ -97,10 +90,10 @@ async function clickFixAndSettle(page) {
 }
 
 const SHOTS = [
-  // 01 — zoom.us active: state pill shows the host, one FIX ZOOM button
-  { name: '01-zoom-detected.png', activeUrl: 'https://zoom.us/', expectState: /^READY · / },
+  // 01 — zoom.us active: ZOOM DETECTED pill, one FIX ZOOM button
+  { name: '01-zoom-detected.png', activeUrl: 'https://zoom.us/', expectState: /^ZOOM DETECTED$/ },
   // 02 — same setup, click FIX ZOOM, wait for the CLEARED state
-  { name: '02-fix-complete.png',  activeUrl: 'https://zoom.us/', expectState: /^READY · /, after: clickFixAndSettle },
+  { name: '02-fix-complete.png',  activeUrl: 'https://zoom.us/', expectState: /^ZOOM DETECTED$/, after: clickFixAndSettle },
   // 03 — non-Zoom site: NOT ZOOM pill, no FIX ZOOM button, one explanatory line
   { name: '03-non-zoom-safe.png', activeUrl: 'https://example.com/', expectState: /^NOT ZOOM$/ },
 ];
