@@ -29,6 +29,16 @@ function group(title) { console.log('\n' + title); }
 const focusedId = (page) => page.evaluate(() => document.activeElement && document.activeElement.id);
 const openPanelId = (page) => page.evaluate(() => { const p = document.querySelector('.tv-panel:not([hidden])'); return p ? p.id : null; });
 
+/** Fonts loaded and two consecutive frames with identical card geometry: the layout is settled. */
+async function waitForStableLayout(page) {
+  await page.evaluate(() => document.fonts.ready);
+  await page.waitForFunction(() => new Promise((resolve) => {
+    const snapshot = () => JSON.stringify([...document.querySelectorAll('.tv-card')].map((c) => c.getBoundingClientRect().toJSON()));
+    const a = snapshot();
+    requestAnimationFrame(() => requestAnimationFrame(() => resolve(snapshot() === a)));
+  }), { timeout: 10000 });
+}
+
 (async () => {
   const server = await serveDirectory(path.join(T.DIST_DIR, 'bravia'));
   const browser = await chromium.launch({ headless: true });
@@ -40,6 +50,7 @@ const openPanelId = (page) => page.evaluate(() => { const p = document.querySele
       const errors = [];
       page.on('pageerror', (e) => errors.push(e.message));
       await page.goto(server.origin + '/index.html', { waitUntil: 'load' });
+      await waitForStableLayout(page);
       const m = await page.evaluate(() => {
         const safe = document.querySelector('.safe-area');
         const cs = getComputedStyle(safe);
@@ -49,15 +60,18 @@ const openPanelId = (page) => page.evaluate(() => { const p = document.querySele
           padL: parseFloat(cs.paddingLeft), padT: parseFloat(cs.paddingTop),
           leadPx: parseFloat(body.fontSize),
           scrollW: document.documentElement.scrollWidth, scrollH: document.documentElement.scrollHeight,
-          cardsInside: cards.every((r) => r.left >= innerWidth * 0.05 - 1 && r.right <= innerWidth * 0.95 + 1 && r.bottom <= innerHeight * 0.95 + 1),
+          // The first card is focused (scaled) at this point; include the 10px focus ring in the bound.
+          cardsInside: cards.every((r) => r.left - 10 >= innerWidth * 0.05 - 1 && r.right + 10 <= innerWidth * 0.95 + 1 && r.bottom + 10 <= innerHeight * 0.95 + 1),
           cardCount: cards.length,
+          geometry: cards.map((r) => [Math.round(r.left), Math.round(r.top), Math.round(r.right), Math.round(r.bottom)]),
+          inner: [innerWidth, innerHeight],
         };
       });
       check(errors.length === 0, 'no page errors', errors.join('; '));
       check(m.padL >= viewport.width * 0.05 - 1 && m.padT >= viewport.height * 0.05 - 1, 'safe-area padding is at least 5% (overscan)', `${m.padL}x${m.padT}`);
       check(m.leadPx >= 20, 'lead text is at least 20px', String(m.leadPx));
       check(m.scrollW <= viewport.width && m.scrollH <= viewport.height, 'no scrolling at TV viewport', `${m.scrollW}x${m.scrollH}`);
-      check(m.cardCount === 3 && m.cardsInside, 'all three cards sit inside the 90% title-safe box');
+      check(m.cardCount === 3 && m.cardsInside, 'all three cards sit inside the 90% title-safe box', `inner ${m.inner.join('x')} cards ${JSON.stringify(m.geometry)}`);
       await context.close();
     }
 
@@ -65,6 +79,7 @@ const openPanelId = (page) => page.evaluate(() => { const p = document.querySele
     const context = await browser.newContext({ viewport: { width: 1920, height: 1080 } });
     const page = await context.newPage();
     await page.goto(server.origin + '/index.html', { waitUntil: 'load' });
+    await waitForStableLayout(page);
     check((await focusedId(page)) === 'card-computer', 'first card is focused on load (never nothing focused)', await focusedId(page));
     await page.keyboard.press('ArrowRight');
     check((await focusedId(page)) === 'card-windows', 'ArrowRight moves to the second card');
