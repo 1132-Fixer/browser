@@ -1,12 +1,12 @@
-/design-system @patricktobias86 @high-texas
-/.brand-assets.tsv @patricktobias86 @high-texas
-/assets/ @patricktobias86 @high-texas
-/packages/ui/src/icons/ @patricktobias86 @high-texas
-/packages/ui/src/popup.html @patricktobias86 @high-texas
-/packages/ui/src/popup.css @patricktobias86 @high-texas
-/packages/ui/src/report.html @patricktobias86 @high-texas
-/packages/ui/src/report.css @patricktobias86 @high-texas
-/apps/extensions/chrome/manifest.json @patricktobias86 @high-texas
-/apps/tv/bravia/tv.css @patricktobias86 @high-texas
-/.github/CODEOWNERS @patricktobias86 @high-texas
-/.github/workflows/brand.yml @patricktobias86 @high-texas
+/design-system @patricktobias86
+/.brand-assets.tsv @patricktobias86
+/assets/ @patricktobias86
+/packages/ui/src/icons/ @patricktobias86
+/packages/ui/src/popup.html @patricktobias86
+/packages/ui/src/popup.css @patricktobias86
+/packages/ui/src/report.html @patricktobias86
+/packages/ui/src/report.css @patricktobias86
+/apps/extensions/chrome/manifest.json @patricktobias86
+/apps/tv/bravia/tv.css @patricktobias86
+/.github/CODEOWNERS @patricktobias86
+/.github/workflows/brand.yml @patricktobias86
