@@ -18,7 +18,7 @@
  *      data-collection declaration; Chromium targets keep minimum_chrome_version.
  */
 
-const { spawnSync } = require('child_process');
+const { lintFirefox } = require('./mozilla-lint');
 const fs = require('fs');
 const path = require('path');
 const T = require('../build/targets');
@@ -98,32 +98,25 @@ for (const id of T.EXTENSION_TARGET_IDS) {
   }
 }
 
-group('web-ext lint (Mozilla addons-linter) on dist/firefox');
-{
+async function verifyMozilla() {
+  group('Mozilla addons-linter on dist/firefox');
   const firefoxDir = path.join(T.DIST_DIR, 'firefox');
-  const webExt = path.join(T.ROOT, 'node_modules', '.bin', process.platform === 'win32' ? 'web-ext.cmd' : 'web-ext');
   if (!fs.existsSync(firefoxDir)) {
     fail('dist/firefox exists', 'run npm run build:firefox');
-  } else if (!fs.existsSync(webExt)) {
-    fail('web-ext is installed', 'run npm ci');
   } else {
-    const r = spawnSync(webExt, ['lint', '--source-dir', firefoxDir, '--no-input', '--output', 'json'], {
-      cwd: T.ROOT, encoding: 'utf8', shell: process.platform === 'win32', windowsHide: true,
-    });
-    let report = null;
-    try { report = JSON.parse(r.stdout.slice(r.stdout.indexOf('{'))); } catch { /* fall through */ }
-    if (!report) {
-      fail('web-ext lint produced a JSON report', (r.stderr || r.stdout || '').trim().split('\n').slice(-3).join(' | '));
-    } else {
-      const errors = report.errors || [];
-      const warnings = report.warnings || [];
-      check(errors.length === 0, `web-ext lint reports 0 errors (${errors.length})`, errors.map((e) => e.code + ': ' + e.message).join(' | '));
+    try {
+      const report = await lintFirefox(firefoxDir);
+      const { errors, warnings } = report;
+      check(errors.length === 0, `Mozilla addons-linter reports 0 errors (${errors.length})`, errors.map((e) => e.code + ': ' + e.message).join(' | '));
       console.log(`        warnings: ${warnings.length}${warnings.length ? ' — ' + warnings.map((w) => w.code).join(', ') : ''}`);
-      check(r.status === 0, 'web-ext lint exit code is 0', String(r.status));
+    } catch (error) {
+      fail('Mozilla addons-linter completed with a valid report', error.message);
     }
   }
+
+  console.log('');
+  console.log(`Passed: ${passed}  Failed: ${failed}`);
+  process.exitCode = failed > 0 ? 1 : 0;
 }
 
-console.log('');
-console.log(`Passed: ${passed}  Failed: ${failed}`);
-process.exit(failed > 0 ? 1 : 0);
+verifyMozilla();
