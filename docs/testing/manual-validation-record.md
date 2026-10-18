@@ -85,10 +85,12 @@ Then, in each browser, run the checklist below and fill one row of the results t
 | | | Firefox (branded, temporary) | | `0d5530ad2990` | | | OPEN |
 | | | Firefox (signed) | | `0d5530ad2990` | | | OPEN |
 
-Repeatable temporary-install check (no branded Firefox needed): with the Playwright Firefox build
-installed, run `MOZ_HEADLESS=1 npx web-ext run --source-dir dist/firefox --firefox <playwright
-firefox.exe> --no-input --no-reload --verbose` and look for the line "Installed … as a temporary
+The historical temporary-install check used the Playwright Firefox build and
+`MOZ_HEADLESS=1 npx web-ext run --source-dir dist/firefox --firefox <playwright
+firefox.exe> --no-input --no-reload --verbose`. Its success line was "Installed … as a temporary
 add-on" (the remote debugging protocol's `installTemporaryAddon` reply carries the add-on id).
+`web-ext` is no longer a workspace dependency. A new operator-run check must use separately
+reviewed tooling. The historical result does not verify the current package.
 
 Local machine facts at the time of writing (2026-09-11): Google Chrome 152.0.7977.84 and
 Microsoft Edge 152.0.4191.66 are installed; Brave and Firefox are not. Playwright Chromium 1234

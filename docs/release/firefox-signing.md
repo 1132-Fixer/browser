@@ -14,7 +14,7 @@ after flipping `xpinstall.signatures.required` in `about:config`.
    optional Report-a-Bug page sends your description, an optional screenshot, the extension version,
    your browser's user-agent string, and a per-install support identifier to the 1132 Fixer support
    service, only when you press Submit, and only after you allow it."
-3. Confirm `npm run verify:manifests` reports `web-ext lint` with 0 errors.
+3. Confirm `npm run verify:manifests` reports Mozilla `addons-linter` with 0 errors.
 
 ## Upload (manual, operator action)
 
@@ -24,7 +24,7 @@ after flipping `xpinstall.signatures.required` in `about:config`.
 3. On AMO (Developer Hub) choose **Submit a New Add-on** (first time) or **Upload New Version**:
    - Distribution: "On this site" (listed) is the intended path for a public tool. Unlisted
      (self-distributed) is possible for beta builds.
-   - Upload the package zip. AMO's validator runs the same linter as `web-ext lint`.
+   - Upload the package zip. AMO and this workspace both use Mozilla `addons-linter`.
    - When asked whether the code was minified, bundled, or transpiled, answer yes and upload the
      source archive with these build notes:
 
@@ -42,6 +42,12 @@ after flipping `xpinstall.signatures.required` in `about:config`.
 5. Submit. Automated validation signs within about 24 hours unless a manual review is triggered.
 
 ## Alternative: `web-ext sign`
+
+`web-ext` is optional operator tooling, separate from this workspace's dependency graph.
+The repository uses Mozilla `addons-linter` directly and does not install the unused
+browser-launch, Android ADB or signing commands. Prefer the AMO upload path above.
+Before using optional signing tooling, the operator must select and verify its current
+security status. Release and publication approval still apply.
 
 `npx web-ext sign --source-dir dist/firefox --channel listed --api-key <JWT issuer> --api-secret <JWT secret>`
 performs the same upload from the command line. The API credentials are operator secrets and must

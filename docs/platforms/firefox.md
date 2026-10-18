@@ -59,7 +59,7 @@ to `optional` and request it on Submit the same way.
 | Check | Status |
 |---|---|
 | Manifest composition and identity | `verify:manifests`, `verify:packages`, unit tests |
-| `web-ext lint` on `dist/firefox` | `verify:manifests` (0 errors) |
+| Mozilla `addons-linter` on `dist/firefox` | `verify:manifests` (0 errors) |
 | Data-collection consent requested on Submit, refusal sends nothing | `npm run test:e2e` (Firefox report suite) |
 | Popup and report behaviour in the real Gecko engine (Playwright Firefox, mocked `browser.*` namespace) | `npm run test:e2e` |
 | Host-access revoked / granted / refused paths | `npm run test:e2e` (both engines) |

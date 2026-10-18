@@ -17,7 +17,7 @@ Status vocabulary, used everywhere in this repository:
 | Capability | Chrome | Edge | Brave | Firefox | BRAVIA Pro (HTML5) | BRAVIA consumer | Safari |
 |---|---|---|---|---|---|---|---|
 | Build produces an independent package | AUTOMATED | AUTOMATED | AUTOMATED | AUTOMATED | AUTOMATED | UNSUPPORTED | NOT_IMPLEMENTED |
-| Manifest / launcher identity validated | AUTOMATED | AUTOMATED | AUTOMATED | AUTOMATED (+ web-ext lint) | AUTOMATED | n/a | n/a |
+| Manifest / launcher identity validated | AUTOMATED | AUTOMATED | AUTOMATED | AUTOMATED (+ Mozilla addons-linter) | AUTOMATED | n/a | n/a |
 | Popup: Zoom detection, NOT ZOOM state | AUTOMATED (Chromium) | shares Chrome bundle | shares Chrome bundle | AUTOMATED (Gecko) | n/a | n/a | n/a |
 | FIX ZOOM: cookie cleanup incl. partitioned cookies | AUTOMATED (mock API) | shares | shares | AUTOMATED (mock API, Gecko) | n/a | n/a | n/a |
 | FIX ZOOM: tab site-data cleanup via injected function | AUTOMATED; injected function executed for real against a non-Zoom origin and refused | shares | shares | AUTOMATED (Gecko) | n/a | n/a | n/a |

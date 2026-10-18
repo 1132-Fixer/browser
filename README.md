@@ -59,7 +59,7 @@ recovered. If the error survives a browser cleanup, use the Windows app.
 | Google Chrome | `release/chrome/1132-fixer-chrome-<v>.zip` | Automated behaviour tests (Chromium) and install smoke; branded Chrome manual | Base manifest. Chrome Web Store listing exists (older version). |
 | Microsoft Edge | `release/edge/1132-fixer-edge-<v>.zip` | Install smoke in Chromium; branded Edge manual | Own store identity for Edge Add-ons. Not yet listed. |
 | Brave | `release/brave/1132-fixer-brave-<v>.zip` | Install smoke in Chromium; branded Brave manual | Brave users install the Chrome Web Store package. |
-| Mozilla Firefox | `release/firefox/1132-fixer-firefox-<v>.zip` | Automated behaviour tests in real Gecko; `web-ext lint`; extension install manual | Own Gecko id, Firefox 140+, built-in data-collection consent for bug reports. AMO signing is manual. |
+| Mozilla Firefox | `release/firefox/1132-fixer-firefox-<v>.zip` | Automated behaviour tests in real Gecko; Mozilla `addons-linter`; extension install manual | Own Gecko id, Firefox 140+, built-in data-collection consent for bug reports. AMO signing is manual. |
 | Sony BRAVIA Professional Displays | `release/bravia/1132-fixer-bravia-<v>.zip` | Emulated at TV viewports; physical display validation required | A ten-foot guide client for Sony's HTML5 runtime. The extension cannot run on a TV. |
 | Sony BRAVIA consumer TVs | none | Unsupported | No extension runtime. |
 | Safari | none | Not implemented | Path documented in `docs/platforms/safari.md`. |
@@ -108,7 +108,7 @@ Details: [docs/architecture/repository-layout.md](docs/architecture/repository-l
 | `npm run typecheck` | Strict TypeScript check. |
 | `npm test` | Unit + integration (needs a build for integration). |
 | `npm run test:e2e` | Playwright matrix: Chromium, Firefox, extension install smoke, BRAVIA client. |
-| `npm run verify:manifests` / `verify:permissions` / `verify:packages` | Generated manifests (+ `web-ext lint`), permission justifications, release zips. |
+| `npm run verify:manifests` / `verify:permissions` / `verify:packages` | Generated manifests (+ Mozilla `addons-linter`), permission justifications, release zips. |
 | `npm run check` | Everything, in CI order. |
 | `npm run bump` | Patch version everywhere (never hand-edit versions). |
 | `npm run assets` | Chrome Web Store screenshots and promo images. |
@@ -129,12 +129,13 @@ appears without a justification.
 
 ## Verification status
 
-`npm run check` is green locally and in CI on every push: source guards, strict type-check, unit
-tests, five builds, generated-manifest validation with `web-ext lint`, permission justifications,
-build integration checks, five release zips, package validation, and six end-to-end suites
-(Chromium and Firefox popup and report, Chromium install smoke for Chrome / Edge / Brave, BRAVIA at
-three TV viewports). What remains manual is listed in
-[docs/testing/README.md](docs/testing/README.md) and [docs/known-limitations.md](docs/known-limitations.md).
+`npm run check` covers source guards, strict type-checking, unit tests, five builds,
+generated-manifest validation with Mozilla `addons-linter`, permission justifications, build
+integration checks, five release zips, package validation, and the configured end-to-end suites.
+Exact commands, results, and source revisions belong in the pull request and
+[validation records](docs/testing/manual-validation-record.md). Real-engine and operator checks
+have separate evidence requirements in [docs/testing/README.md](docs/testing/README.md); remaining
+limits are listed in [docs/known-limitations.md](docs/known-limitations.md).
 
 ## Documentation
 
